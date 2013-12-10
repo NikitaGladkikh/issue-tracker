@@ -1,0 +1,24 @@
+allprojects {
+    group='com.epam.issuetrackerprj'
+}
+
+apply plugin: 'checkstyle'
+apply plugin: 'pmd'
+apply plugin: 'findbugs'
+
+subprojects {
+    def styleCheckConfigDir = rootProject.getProjectDir().getCanonicalPath() + '/tools/checkstyle/'
+    checkstyle {
+        configProperties.suppressionsFile = styleCheckConfigDir + 'checkstyle.xml'
+    }
+    pmd {
+	toolVersion = "${pmdVersion}"
+	ruleSetFiles = files(styleCheckConfigDir + 'ccc-pmd-rules.xml')     
+	ignoreFailures = false
+    }
+    findbugs {
+	toolVersion = "${findbugsVersion}"
+    }
+}
+
+

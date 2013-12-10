@@ -1,0 +1,33 @@
+apply plugin: 'java'
+apply plugin: 'war'
+apply plugin: 'tomcat'
+apply plugin: 'idea'
+
+buildscript {
+    repositories {
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:1.0'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compile("com.vaadin:vaadin-server:7.1.8")
+    compile("com.vaadin:vaadin-shared:7.1.8")
+    compile("com.vaadin:vaadin-themes:7.1.8")
+    compile("com.vaadin:vaadin-client-compiled:7.1.8")
+
+    def tomcatVersion = '7.0.37'
+    tomcat("org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+        "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}")
+    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
+}
