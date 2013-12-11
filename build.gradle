@@ -1,5 +1,5 @@
 allprojects {
-    group='com.epam.issuetrackerprj'
+    group = 'com.epam.issuetracker'
 }
 
 apply plugin: 'checkstyle'
@@ -12,13 +12,14 @@ subprojects {
         configProperties.suppressionsFile = styleCheckConfigDir + 'checkstyle.xml'
     }
     pmd {
-	toolVersion = "${pmdVersion}"
-	ruleSetFiles = files(styleCheckConfigDir + 'ccc-pmd-rules.xml')     
-	ignoreFailures = false
+        toolVersion = "${pmdVersion}"
+        ruleSetFiles = files(styleCheckConfigDir + 'ccc-pmd-rules.xml')
+        ignoreFailures = false
     }
     findbugs {
-	toolVersion = "${findbugsVersion}"
+        toolVersion = "${findbugsVersion}"
     }
 }
+
 
 

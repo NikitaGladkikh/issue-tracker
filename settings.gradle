@@ -1,7 +1,7 @@
-rootProject.name='issue-tracker'
+rootProject.name = 'issue-tracker'
 
-include 'it-db'
-include 'it-domain'
-include 'it-repository'
-include 'it-service'
-include 'it-ui'
+include 'issue-tracker-db'
+include 'issue-tracker-domain'
+include 'issue-tracker-repository'
+include 'issue-tracker-service'
+include 'issue-tracker-ui'
