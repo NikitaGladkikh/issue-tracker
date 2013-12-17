@@ -3,13 +3,22 @@ package com.epam.issuetracker.ui.table;
 import com.vaadin.ui.Table;
 
 /**
- * Created by Mikita_Hladkikh on 12/12/13.
+ * Table of all projects.
+ *
+ * @author Mikita_Hladkikh on 12/12/13.
  */
 public class ProjectsTable extends Table {
+
+    private static final String ALL_PROJECTS = "All Projects";
+    private static final String PROJECT = "Project_";
+
+    /**
+     * Default constructor.
+     */
     public ProjectsTable() {
-        addContainerProperty("name", String.class, null, "All Projects", null, Table.Align.CENTER);
+        addContainerProperty(ALL_PROJECTS, String.class, null, ALL_PROJECTS, null, Table.Align.CENTER);
         for (int i = 0; i < 100; i++) {
-            addItem(new Object[]{"Project " + String.valueOf(i)}, i);
+            addItem(new Object[]{PROJECT + String.valueOf(i)}, i);
         }
         setSelectable(true);
         setSizeFull();

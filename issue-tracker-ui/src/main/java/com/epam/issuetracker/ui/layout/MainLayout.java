@@ -5,10 +5,15 @@ import com.vaadin.ui.VerticalLayout;
 
 
 /**
- * Created by Mikita_Hladkikh on 12/11/13.
+ * Main layout of the application.
+ *
+ * @author Mikita_Hladkikh on 12/11/13.
  */
 public class MainLayout extends VerticalLayout {
 
+    /**
+     * Default constructor.
+     */
     public MainLayout() {
         HorizontalSplitPanel horizontalSplitPanel = new HorizontalSplitPanel();
 
@@ -21,6 +26,4 @@ public class MainLayout extends VerticalLayout {
         addComponent(horizontalSplitPanel);
         setSizeFull();
     }
-
-
 }

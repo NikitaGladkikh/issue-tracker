@@ -3,29 +3,50 @@ package com.epam.issuetracker.ui.table;
 import com.vaadin.ui.Table;
 
 /**
- * Created by Mikita_Hladkikh on 12/12/13.
+ * Table to consist all issues.
+ *
+ * @author Mikita_Hladkikh on 12/12/13.
  */
 public class IssuesTable extends Table {
 
+
+    private static final String KEY = "key";
+    private static final String NAME = "summary";
+    private static final String PRIORITY = "priority";
+    private static final String SEVERITY = "severity";
+    private static final String TYPE = "type";
+    private static final String STATUS = "status";
+
+    private static final String PRJ_KEY = "prj-";
+    private static final String PRJ_NAME = "Project_1";
+
+    private static final int COUNT = 100;
+
+    /**
+     * Default constructor.
+     */
     public IssuesTable() {
 
-        addContainerProperty("№", Integer.class, null, "№", null, Table.Align.CENTER);
-        addContainerProperty("short name", String.class, null, "SHORT NAME", null, Table.Align.CENTER);
-        addContainerProperty("name", String.class, null, "NAME", null, Table.Align.CENTER);
-        addContainerProperty("priority", String.class, null, "PRIORITY", null, Table.Align.CENTER);
-        addContainerProperty("severity", String.class, null, "SEVERITY", null, Table.Align.CENTER);
-        addContainerProperty("type ", String.class, null, "TYPE", null, Table.Align.CENTER);
-        addContainerProperty("status", String.class, null, "STATUS", null, Table.Align.CENTER);
+        addContainerProperty(KEY, String.class, null, KEY, null, Table.Align.CENTER);
+        addContainerProperty(NAME, String.class, null, NAME, null, Table.Align.CENTER);
+        addContainerProperty(PRIORITY, String.class, null, PRIORITY, null, Table.Align.CENTER);
+        addContainerProperty(SEVERITY, String.class, null, SEVERITY, null, Table.Align.CENTER);
+        addContainerProperty(TYPE, String.class, null, TYPE, null, Table.Align.CENTER);
+        addContainerProperty(STATUS, String.class, null, STATUS, null, Table.Align.CENTER);
+
         setSortEnabled(true);
 
-        for (int i = 0; i < 100; i++) {
-            addItem(new Object[]{i, "prj-" + String.valueOf(100 - i), "Project_1", "priority", "severity", "type", "status"}, i);
+
+        for (int i = 0; i < COUNT; i++) {
+            addItem(
+                new Object[]{PRJ_KEY + String.valueOf(COUNT - i), PRJ_NAME, PRIORITY, SEVERITY, TYPE, STATUS},
+                i);
         }
         setColumnCollapsingAllowed(true);
-        setColumnCollapsed("born", true);
         setSelectable(true);
         setImmediate(true);
 
         setSizeFull();
+        setColumnExpandRatio(NAME, 1.0f);
     }
 }
