@@ -11,58 +11,64 @@ import com.vaadin.util.ReflectTools;
 import java.lang.reflect.Method;
 
 /**
- * Window to confirm put the project to archive.
+ * Window to confirmButton put the project to archive.
+ * <p/>
+ * Date: 12/17/13
  *
- * @author Mikita_Hladkikh on 12/17/13.
+ * @author Mikita_Hladkikh
  */
 public class ArchiveWindow extends Window {
 
-    private static final String QUESTION = "Do you realy want to put the project into archive?";
+    private static final String QUESTION_LABEL = "Do you realy want to put the project into archive?";
     private static final String BUTTON_WIDTH = "100px";
 
-    private static final String CONFIRM = "Confirm";
-    private static final String NO = "No";
-    private static final String YES = "Yes";
+    private static final String CONFIRM_LABEL = "Confirm";
+    private static final String NO_BUTTON = "No";
+    private static final String YES_BUTTON = "Yes";
 
     private static final String CANCEL_METHOD = "cancelClick";
 
     static final Method CANCEL_LISTENER = ReflectTools.findMethod(ArchiveWindow.class, CANCEL_METHOD);
 
-    private Label question = new Label(QUESTION);
+    private Label questionLabel = new Label(QUESTION_LABEL);
 
-    private Button cancel = new Button(NO);
-    private Button confirm = new Button(YES);
+    private Button cancelButton = new Button(NO_BUTTON);
+    private Button confirmButton = new Button(YES_BUTTON);
+
+    private HorizontalLayout buttonsLayout = new HorizontalLayout();
+    private VerticalLayout windowLayout = new VerticalLayout();
 
     /**
      * Default constructor.
      */
     public ArchiveWindow() {
-        super(CONFIRM);
+        super(CONFIRM_LABEL);
         center();
         setResizable(false);
-
-        VerticalLayout fields = new VerticalLayout();
-        fields.addComponents(question);
-        fields.setSpacing(true);
-        fields.setMargin(true);
-
-        HorizontalLayout buttons = new HorizontalLayout();
-        buttons.setSizeFull();
-        confirm.setWidth(BUTTON_WIDTH);
-        cancel.setWidth(BUTTON_WIDTH);
-        buttons.addComponents(confirm, cancel);
-        buttons.setComponentAlignment(confirm, Alignment.MIDDLE_CENTER);
-        buttons.setComponentAlignment(cancel, Alignment.MIDDLE_CENTER);
-        buttons.setSpacing(true);
-        buttons.setMargin(true);
-
-        cancel.addListener(Button.ClickEvent.class, this, CANCEL_LISTENER);
-
-        VerticalLayout window = new VerticalLayout();
-        window.addComponents(fields, buttons);
-
+        initButtons();
+        initLayout();
         setModal(true);
-        setContent(window);
+        setContent(windowLayout);
+    }
+
+    private void initButtons() {
+        cancelButton.addListener(Button.ClickEvent.class, this, CANCEL_LISTENER);
+        confirmButton.setWidth(BUTTON_WIDTH);
+        cancelButton.setWidth(BUTTON_WIDTH);
+        buttonsLayout.addComponents(confirmButton, cancelButton);
+        buttonsLayout.setComponentAlignment(confirmButton, Alignment.MIDDLE_CENTER);
+        buttonsLayout.setComponentAlignment(cancelButton, Alignment.MIDDLE_CENTER);
+        buttonsLayout.setSpacing(true);
+        buttonsLayout.setMargin(true);
+        buttonsLayout.setSizeFull();
+    }
+
+    private void initLayout() {
+        VerticalLayout fieldsLayout = new VerticalLayout();
+        fieldsLayout.addComponents(questionLabel);
+        fieldsLayout.setSpacing(true);
+        fieldsLayout.setMargin(true);
+        windowLayout.addComponents(fieldsLayout, buttonsLayout);
     }
 
     /**

@@ -13,15 +13,19 @@ import com.vaadin.util.ReflectTools;
 import java.lang.reflect.Method;
 
 /**
- * @author Mikita_Hladkikh on 12/13/13.
+ * Layout for display info about issue.
+ * <p/>
+ * Date: 12/13/13
+ *
+ * @author Mikita_Hladkikh
  */
 public class IssueLayout extends VerticalLayout {
 
-    private static final String ISSUE = "ISSUE: ";
-    private static final String ISS_NUMBER = "prj-007";
-    private static final String ISS_SUMMARY =
+    private static final String ISSUE_LABEL = "ISSUE: ";
+    private static final String ISSUE_KEY_LABEL = "prj-007";
+    private static final String ISSUE_SUMMARY_LABEL =
         "Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue";
-    private static final String ISS_DESC =
+    private static final String ISSUE_DESCRIPTION_LABEl =
         "Description Description Description Description Description Description Description" +
             " Description Description Description Description Description Description Description" +
             " Description Description Description Description Description Description Description " +
@@ -42,21 +46,20 @@ public class IssueLayout extends VerticalLayout {
             "Description Description Description Description Description Description Description " +
             "Description Description Description Description Description Description Description ";
 
-
-    private static final String DETAILS = "Details:";
-    private static final String TYPE = "type:";
-    private static final String ISS_TYPE = "bug";
-    private static final String PRIORITY = "priority:";
-    private static final String ISS_PRIORITY = "high";
-    private static final String SEVERITY = "severity:";
-    private static final String STATUS = "status:";
-    private static final String ISS_STATUS = "closed";
-    private static final String RESOLUTION = "resolution:";
-    private static final String USER = "User###";
+    private static final String DETAILS_LABEL = "Details:";
+    private static final String TYPE_LABEL = "typeLabel:";
+    private static final String ISSUE_TYPE_LABEL = "bug";
+    private static final String PRIORITY_LABEL = "priorityLabel:";
+    private static final String ISSUE_PRIORITY_LABEL = "high";
+    private static final String SEVERITY_LABEL = "severityLabel:";
+    private static final String STATUS_LABEL = "statusLabel:";
+    private static final String ISSUE_STATUS_LABEL = "closed";
+    private static final String RESOLUTION_LABEL = "resolutionLabel:";
+    private static final String USER_LABEL = "User###";
     private static final String BUTTON_COMMENT = "Leave Comment";
 
-    private static final String COMMENTS = "Comments:";
-    private static final String COMMENT =
+    private static final String COMMENTS_LABEL = "Comments:";
+    private static final String COMMENT_LABEL =
         "It's will be...I think...It's will be...I think...It's will be...I think...It's " +
             "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
             "I think...It's will be...I think...It's will be...I think..." +
@@ -147,29 +150,11 @@ public class IssueLayout extends VerticalLayout {
             "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
             "I think...It's will be...I think...It's will be...I think...";
 
-    private Label issNumb = new Label(ISSUE + ISS_NUMBER);
-    private Label issSummary = new Label(ISS_SUMMARY);
-    private Label issDesc = new Label(ISS_DESC);
-    private Label details = new Label(DETAILS);
-    private Label type = new Label(TYPE);
-    private Label issType = new Label(ISS_TYPE);
-    private Label priority = new Label(PRIORITY);
-    private Label issPriority = new Label(ISS_PRIORITY);
-    private Label severity = new Label(SEVERITY);
-    private Label issSeverity = new Label(SEVERITY);
-    private Label status = new Label(STATUS);
-    private Label issStatus = new Label(ISS_STATUS);
-    private Label resolution = new Label(RESOLUTION);
-    private Label issResolution = new Label(RESOLUTION);
-    private Label comments = new Label(COMMENTS);
-    private Label userCom = new Label(USER);
-    private Label comment = new Label(COMMENT);
+    private VerticalLayout summaryLayout = new VerticalLayout();
+    private VerticalLayout detailsLayout = new VerticalLayout();
+    private VerticalLayout commentsLayout = new VerticalLayout();
 
-    private VerticalLayout summary = new VerticalLayout();
-    private VerticalLayout detailsLay = new VerticalLayout();
-    private VerticalLayout commentsLay = new VerticalLayout();
-
-    private Button leaveComment = new Button(BUTTON_COMMENT);
+    private Button leaveCommentButton = new Button(BUTTON_COMMENT);
 
     private static final String COMMENT_METHOD = "commentClick";
     static final Method COMMENT_LISTENER = ReflectTools.findMethod(IssueLayout.class, COMMENT_METHOD);
@@ -179,48 +164,59 @@ public class IssueLayout extends VerticalLayout {
     }
 
     private void initSummary() {
-        summary = new VerticalLayout();
-        summary.addComponents(issNumb, issSummary, issDesc);
-        summary.setSpacing(true);
-        summary.setMargin(true);
-        summary.setSizeFull();
-        summary.setExpandRatio(issDesc, 1.0f);
+        Label issueKeyLabel = new Label(ISSUE_KEY_LABEL);
+        issueKeyLabel.setCaption(ISSUE_LABEL);
+        Label issueSummaryLabel = new Label(ISSUE_SUMMARY_LABEL);
+        Label issueDescriptionLabel = new Label(ISSUE_DESCRIPTION_LABEl);
+        summaryLayout.addComponents(issueKeyLabel, issueSummaryLabel, issueDescriptionLabel);
+        summaryLayout.setSpacing(true);
+        summaryLayout.setMargin(true);
+        summaryLayout.setSizeFull();
+        summaryLayout.setExpandRatio(issueDescriptionLabel, 1.0f);
     }
 
     private void initDetails() {
-        HorizontalLayout typeLay = setDetailsHorLayout(type, issType);
-        HorizontalLayout statusLay = setDetailsHorLayout(status, issStatus);
-        HorizontalLayout priorityLay = setDetailsHorLayout(priority, issPriority);
-        HorizontalLayout resolutionLay = setDetailsHorLayout(resolution, issResolution);
-        HorizontalLayout severityLay = setDetailsHorLayout(severity, issSeverity);
-
-        HorizontalLayout typeStatus = setHorLayout(typeLay, statusLay);
-        HorizontalLayout priorityReso = setHorLayout(priorityLay, resolutionLay);
-
-        detailsLay = new VerticalLayout();
-        detailsLay.addComponents(details, typeStatus, priorityReso, severityLay);
-        detailsLay.setSpacing(true);
-        detailsLay.setMargin(true);
-        detailsLay.setSizeFull();
+        Label detailsLabel = new Label();
+        detailsLabel.setCaption(DETAILS_LABEL);
+        Label issueTypeLabel = new Label(ISSUE_TYPE_LABEL);
+        issueTypeLabel.setCaption(TYPE_LABEL);
+        Label issuePriorityLabel = new Label(ISSUE_PRIORITY_LABEL);
+        issuePriorityLabel.setCaption(PRIORITY_LABEL);
+        Label issueSeverityLabel = new Label(SEVERITY_LABEL);
+        issueSeverityLabel.setCaption(SEVERITY_LABEL);
+        Label issueStatusLabel = new Label(ISSUE_STATUS_LABEL);
+        issueStatusLabel.setCaption(STATUS_LABEL);
+        Label issueResolutionLabel = new Label(RESOLUTION_LABEL);
+        issueResolutionLabel.setCaption(RESOLUTION_LABEL);
+        HorizontalLayout typeLay = setDetailsHorLayout(issueTypeLabel, issueStatusLabel);
+        HorizontalLayout statusLay = setDetailsHorLayout(issueSeverityLabel, issueResolutionLabel);
+        detailsLayout.addComponents(detailsLabel, typeLay, statusLay, issuePriorityLabel);
+        detailsLayout.setSpacing(true);
+        detailsLayout.setMargin(true);
+        detailsLayout.setSizeFull();
     }
 
     private void initComments() {
-        leaveComment.addListener(Button.ClickEvent.class, this, COMMENT_LISTENER);
-        VerticalLayout userComment = addComment(userCom, comment);
+        Label commentsLabel = new Label();
+        commentsLabel.setCaption(COMMENTS_LABEL);
+        Label userLabel = new Label(USER_LABEL);
+        Label commentLabel = new Label(COMMENT_LABEL);
+
+        leaveCommentButton.addListener(Button.ClickEvent.class, this, COMMENT_LISTENER);
+        VerticalLayout userComment = addComment(userLabel, commentLabel);
 
         VerticalLayout allComments = new VerticalLayout();
-        allComments.addComponents(userComment, leaveComment);
-        allComments.setComponentAlignment(leaveComment, Alignment.MIDDLE_RIGHT);
+        allComments.addComponents(userComment, leaveCommentButton);
+        allComments.setComponentAlignment(leaveCommentButton, Alignment.MIDDLE_RIGHT);
         allComments.setSpacing(true);
         allComments.setSizeFull();
         allComments.setExpandRatio(userComment, 1.0f);
 
-
-        commentsLay.addComponents(comments, allComments);
-        commentsLay.setSpacing(true);
-        commentsLay.setMargin(true);
-        commentsLay.setSizeFull();
-        commentsLay.setExpandRatio(allComments, 1.0f);
+        commentsLayout.addComponents(commentsLabel, allComments);
+        commentsLayout.setSpacing(true);
+        commentsLayout.setMargin(true);
+        commentsLayout.setSizeFull();
+        commentsLayout.setExpandRatio(allComments, 1.0f);
     }
 
     private void init() {
@@ -228,21 +224,21 @@ public class IssueLayout extends VerticalLayout {
         initDetails();
         initComments();
 
-        VerticalLayout issueInfo = new VerticalLayout();
-        issueInfo.addComponents(summary, detailsLay, commentsLay);
-        issueInfo.setSizeFull();
-        issueInfo.setExpandRatio(summary, 2.0f);
-        issueInfo.setExpandRatio(detailsLay, 1.0f);
-        issueInfo.setExpandRatio(commentsLay, 3.0f);
+        VerticalLayout issueInfoLayout = new VerticalLayout();
+        issueInfoLayout.addComponents(summaryLayout, detailsLayout, commentsLayout);
+        issueInfoLayout.setSizeFull();
+        issueInfoLayout.setExpandRatio(summaryLayout, 2.0f);
+        issueInfoLayout.setExpandRatio(detailsLayout, 1.0f);
+        issueInfoLayout.setExpandRatio(commentsLayout, 3.0f);
 
-        addComponent(issueInfo);
+        addComponent(issueInfoLayout);
     }
 
     private HorizontalLayout setDetailsHorLayout(Component component1, Component component2) {
         HorizontalLayout newLay = new HorizontalLayout();
         newLay.addComponents(component1, component2);
         newLay.setSpacing(true);
-        newLay.setSizeUndefined();
+        newLay.setSizeFull();
         return newLay;
     }
 

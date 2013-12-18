@@ -11,40 +11,40 @@ import com.vaadin.ui.VerticalLayout;
 
 /**
  * Layout for edit needed issue.
+ * <p/>
+ * Date: 12/17/13
  *
- * @author Mikita_Hladkikh on 12/17/13.
+ * @author Mikita_Hladkikh
  */
 public class EditIssueLayout extends VerticalLayout {
 
-    private static final String ISSUE = "ISSUE: ";
-    private static final String ISS_NUMBER = "prj-007";
-    private static final String ISS_SUMMARY = "Summary";
-    private static final String ISS_DESC = "Description";
+    private static final String ISSUE_LABEL = "ISSUE: ";
+    private static final String ISSUE_LABEL_KEY = "prj-007";
+    private static final String ISSUE_CAPTION_SUMMARY = "Summary";
+    private static final String ISSUE_CAPTION_DESCRIPTION = "Description";
 
-    private static final String DETAILS = "Details:";
-    private static final String TYPE = "Type:";
-    private static final String PRIORITY = "Priority:";
-    private static final String SEVERITY = "Severity:";
-    private static final String STATUS = "Status:";
-    private static final String RESOLUTION = "Resolution:";
+    private static final String DETAILS_LABEL = "Details:";
+    private static final String TYPE_CAPTION = "Type:";
+    private static final String PRIORITY_CAPTION = "Priority:";
+    private static final String SEVERITY_CAPTION = "Severity:";
+    private static final String STATUS_CAPTION = "Status:";
+    private static final String RESOLUTION_CAPTION = "Resolution:";
 
     private static final String TEXT_FIELD_WIDTH = "100%";
-    private static final String TEXT_AREA_HEIGHT = "200px";
 
-    private VerticalLayout summary = new VerticalLayout();
-    private VerticalLayout detailsLay = new VerticalLayout();
+    private VerticalLayout summaryLayout = new VerticalLayout();
+    private VerticalLayout detailsLayout = new VerticalLayout();
 
-    private Label issNumb = new Label(ISSUE + ISS_NUMBER);
-    private TextField issSummary = new TextField(ISS_SUMMARY);
-    private TextArea issDesc = new TextArea(ISS_DESC);
 
-    private Label details = new Label(DETAILS);
+    private TextField issueSummaryTextField = new TextField(ISSUE_CAPTION_SUMMARY);
+    private TextArea issueDescriptionTextArea = new TextArea(ISSUE_CAPTION_DESCRIPTION);
 
-    private ComboBox type = new ComboBox(TYPE);
-    private ComboBox priority = new ComboBox(PRIORITY);
-    private ComboBox severity = new ComboBox(SEVERITY);
-    private ComboBox status = new ComboBox(STATUS);
-    private ComboBox resolution = new ComboBox(RESOLUTION);
+
+    private ComboBox typeComboBox = new ComboBox(TYPE_CAPTION);
+    private ComboBox priorityComboBox = new ComboBox(PRIORITY_CAPTION);
+    private ComboBox severityComboBox = new ComboBox(SEVERITY_CAPTION);
+    private ComboBox statusComboBox = new ComboBox(STATUS_CAPTION);
+    private ComboBox resolutionComboBox = new ComboBox(RESOLUTION_CAPTION);
 
     /**
      * Default constructor.
@@ -53,41 +53,42 @@ public class EditIssueLayout extends VerticalLayout {
         initSummary();
         initDetails();
 
-        addComponents(summary, detailsLay);
+        addComponents(summaryLayout, detailsLayout);
         setSizeFull();
     }
 
     private void initSummary() {
+        Label issueKeyLabel = new Label();
+        issueKeyLabel.setCaption(ISSUE_LABEL + ISSUE_LABEL_KEY);
+        issueSummaryTextField.setWidth(TEXT_FIELD_WIDTH);
+        issueDescriptionTextArea.setSizeFull();
 
-        issSummary.setWidth(TEXT_FIELD_WIDTH);
-
-        issDesc.setSizeFull();
-
-        summary = new VerticalLayout();
-        summary.addComponents(issNumb, issSummary, issDesc);
-        summary.setSpacing(true);
-        summary.setMargin(true);
-        summary.setSizeFull();
-        summary.setExpandRatio(issDesc, 1.0f);
+        summaryLayout = new VerticalLayout();
+        summaryLayout.addComponents(issueKeyLabel, issueSummaryTextField, issueDescriptionTextArea);
+        summaryLayout.setSpacing(true);
+        summaryLayout.setMargin(true);
+        summaryLayout.setSizeFull();
+        summaryLayout.setExpandRatio(issueDescriptionTextArea, 1.0f);
     }
 
     public void initDetails() {
-        HorizontalLayout typeStatus = setDetailsHorLayout(type, status);
-        HorizontalLayout priorityReso = setDetailsHorLayout(priority, resolution);
+        HorizontalLayout typeStatusLayout = setDetailsHorLayout(typeComboBox, statusComboBox);
+        HorizontalLayout priorityResolutionLayout = setDetailsHorLayout(priorityComboBox, resolutionComboBox);
 
-        detailsLay = new VerticalLayout();
-        detailsLay.addComponents(details, typeStatus, priorityReso, severity);
-        detailsLay.setSpacing(true);
-        detailsLay.setMargin(true);
-        detailsLay.setSizeFull();
+        Label detailsLabel = new Label();
+        detailsLabel.setCaption(DETAILS_LABEL);
+        detailsLayout = new VerticalLayout();
+        detailsLayout.addComponents(detailsLabel, typeStatusLayout, priorityResolutionLayout, severityComboBox);
+        detailsLayout.setSpacing(true);
+        detailsLayout.setMargin(true);
+        detailsLayout.setSizeFull();
     }
 
     private HorizontalLayout setDetailsHorLayout(Component component1, Component component2) {
-        HorizontalLayout newLay = new HorizontalLayout();
-        newLay.addComponents(component1, component2);
-        newLay.setSpacing(true);
-        newLay.setSizeFull();
-        return newLay;
+        HorizontalLayout newLayout = new HorizontalLayout();
+        newLayout.addComponents(component1, component2);
+        newLayout.setSpacing(true);
+        newLayout.setSizeFull();
+        return newLayout;
     }
-
 }

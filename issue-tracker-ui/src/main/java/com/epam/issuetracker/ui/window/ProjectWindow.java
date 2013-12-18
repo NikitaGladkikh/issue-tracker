@@ -14,82 +14,87 @@ import java.lang.reflect.Method;
 
 /**
  * Window to add/edit project.
+ * <p/>
+ * Date: 12/12/13
  *
- * @author Mikita_Hladkikh on 12/12/13.
+ * @author Mikita_Hladkikh
  */
 public class ProjectWindow extends Window {
 
     private static final String FIELD_WIDTH = "250px";
     private static final String BUTTON_WIDTH = "100px";
 
-    private static final String NAME = "Name";
-    private static final String SHORT_NAME = "Short Name";
-    private static final String DESCRIPTION = "Description";
-    private static final String CANCEL = "Cancel";
-    private static final String SAVE = "Save";
-    private static final String PROJECT = "Project";
+    private static final String NAME_LABEL = "Name";
+    private static final String SHORT_NAME_LABEL = "Short Name";
+    private static final String DESCRIPTION_LABEL = "Description";
+    private static final String CANCEL_BUTTON = "Cancel";
+    private static final String SAVE_BUTTON = "Save";
+    private static final String PROJECT_LABEL = "Project";
 
     private static final String CANCEL_METHOD = "cancelClick";
 
     static final Method ADD_CANCEL_LISTENER = ReflectTools.findMethod(ProjectWindow.class, CANCEL_METHOD);
 
-    private TextField name = new TextField(NAME);
-    private TextField shortName = new TextField(SHORT_NAME);
-    private TextArea description = new TextArea(DESCRIPTION);
+    private TextField nameTextField = new TextField(NAME_LABEL);
+    private TextField shortNameTextField = new TextField(SHORT_NAME_LABEL);
+    private TextArea descriptionTextArea = new TextArea(DESCRIPTION_LABEL);
 
-    private Button cancel = new Button(CANCEL);
-    private Button save = new Button(SAVE);
+    private Button cancelButton = new Button(CANCEL_BUTTON);
+    private Button saveButton = new Button(SAVE_BUTTON);
+
+    private HorizontalLayout buttonsLayout = new HorizontalLayout();
+    private VerticalLayout windowLayout = new VerticalLayout();
 
     /**
      * Default constructor.
      */
     public ProjectWindow() {
-        super(PROJECT);
+        super(PROJECT_LABEL);
         center();
         setResizable(false);
-
-        name.setWidth(FIELD_WIDTH);
-        shortName.setWidth(FIELD_WIDTH);
-        description.setWidth(FIELD_WIDTH);
-
-        VerticalLayout fields = new VerticalLayout();
-        fields.addComponents(name, shortName, description);
-        fields.setSpacing(true);
-        fields.setMargin(true);
-
-        HorizontalLayout buttons = new HorizontalLayout();
-        buttons.setSizeFull();
-        save.setWidth(BUTTON_WIDTH);
-        cancel.setWidth(BUTTON_WIDTH);
-        buttons.addComponents(save, cancel);
-        buttons.setComponentAlignment(save, Alignment.MIDDLE_CENTER);
-        buttons.setComponentAlignment(cancel, Alignment.MIDDLE_CENTER);
-        buttons.setSpacing(true);
-        buttons.setMargin(true);
-
-        cancel.addListener(Button.ClickEvent.class, this, ADD_CANCEL_LISTENER);
-
-        VerticalLayout window = new VerticalLayout();
-        window.addComponents(fields, buttons);
-
+        initButtons();
+        initLayout();
         setModal(true);
-        setContent(window);
+        setContent(windowLayout);
+    }
+
+    private void initButtons() {
+        cancelButton.addListener(Button.ClickEvent.class, this, ADD_CANCEL_LISTENER);
+        buttonsLayout.setSizeFull();
+        saveButton.setWidth(BUTTON_WIDTH);
+        cancelButton.setWidth(BUTTON_WIDTH);
+        buttonsLayout.addComponents(saveButton, cancelButton);
+        buttonsLayout.setComponentAlignment(saveButton, Alignment.MIDDLE_CENTER);
+        buttonsLayout.setComponentAlignment(cancelButton, Alignment.MIDDLE_CENTER);
+        buttonsLayout.setSpacing(true);
+        buttonsLayout.setMargin(true);
+    }
+
+    private void initLayout() {
+        nameTextField.setWidth(FIELD_WIDTH);
+        shortNameTextField.setWidth(FIELD_WIDTH);
+        descriptionTextArea.setWidth(FIELD_WIDTH);
+        VerticalLayout fieldsLayout = new VerticalLayout();
+        fieldsLayout.addComponents(nameTextField, shortNameTextField, descriptionTextArea);
+        fieldsLayout.setSpacing(true);
+        fieldsLayout.setMargin(true);
+        windowLayout.addComponents(fieldsLayout, buttonsLayout);
     }
 
     /**
      * Constructs new window based on name, short name and description.
      *
-     * @param name
-     * @param shortName
-     * @param description
+     * @param name        of the project
+     * @param shortName   of the project
+     * @param description of the project
      */
+    // TODO: Replace arguments with domain object
     public ProjectWindow(String name, String shortName, String description) {
         this();
-        this.name.setValue(name);
-        this.shortName.setValue(shortName);
-        this.description.setValue(description);
+        this.nameTextField.setValue(name);
+        this.shortNameTextField.setValue(shortName);
+        this.descriptionTextArea.setValue(description);
     }
-
 
     /**
      * Cancel event for cancel button.

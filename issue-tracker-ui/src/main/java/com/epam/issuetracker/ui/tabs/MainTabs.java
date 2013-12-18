@@ -6,17 +6,19 @@ import com.vaadin.ui.TabSheet;
 
 /**
  * Main tabsheet to display project and issues tabs.
+ * <p/>
+ * Date: 12/12/13
  *
- * @author Mikita_Hladkikh on 12/12/13.
+ * @author Mikita_Hladkikh
  */
 public class MainTabs extends TabSheet {
 
-    private static final String PROJECT = "Project";
-    private static final String ISSUES = "Issues";
+    private static final String PROJECT_TAB = "Project";
+    private static final String ISSUES_TAB = "Issues";
 
     public MainTabs() {
-        addTab(new ProjectLayout(), PROJECT);
-        addTab(new AllIssuesLayout(), ISSUES);
+        addTab(new ProjectLayout(), PROJECT_TAB);
+        addTab(new AllIssuesLayout(), ISSUES_TAB);
         setSizeFull();
     }
 }

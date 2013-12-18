@@ -4,49 +4,51 @@ import com.vaadin.ui.Table;
 
 /**
  * Table to consist all issues.
+ * <p/>
+ * Date: 12/12/13
  *
- * @author Mikita_Hladkikh on 12/12/13.
+ * @author Mikita_Hladkikh
  */
 public class IssuesTable extends Table {
 
+    private static final String KEY_HEADER = "key";
+    private static final String NAME_HEADER = "summary";
+    private static final String PRIORITY_HEADER = "priority";
+    private static final String SEVERITY_HEADER = "severity";
+    private static final String TYPE_HEADER = "type";
+    private static final String STATUS_HEADER = "status";
 
-    private static final String KEY = "key";
-    private static final String NAME = "summary";
-    private static final String PRIORITY = "priority";
-    private static final String SEVERITY = "severity";
-    private static final String TYPE = "type";
-    private static final String STATUS = "status";
-
-    private static final String PRJ_KEY = "prj-";
-    private static final String PRJ_NAME = "Project_1";
-
+    private static final String PRJ_KEY_CAPTION = "prj-";
+    private static final String PRJ_NAME_CAPTION = "Project_1";
     private static final int COUNT = 100;
 
     /**
      * Default constructor.
      */
     public IssuesTable() {
+        initTable();
+        setSizeFull();
+        setColumnExpandRatio(NAME_HEADER, 1.0f);
+    }
 
-        addContainerProperty(KEY, String.class, null, KEY, null, Table.Align.CENTER);
-        addContainerProperty(NAME, String.class, null, NAME, null, Table.Align.CENTER);
-        addContainerProperty(PRIORITY, String.class, null, PRIORITY, null, Table.Align.CENTER);
-        addContainerProperty(SEVERITY, String.class, null, SEVERITY, null, Table.Align.CENTER);
-        addContainerProperty(TYPE, String.class, null, TYPE, null, Table.Align.CENTER);
-        addContainerProperty(STATUS, String.class, null, STATUS, null, Table.Align.CENTER);
+    private void initTable() {
+        addContainerProperty(KEY_HEADER, String.class, null, KEY_HEADER, null, Table.Align.CENTER);
+        addContainerProperty(NAME_HEADER, String.class, null, NAME_HEADER, null, Table.Align.CENTER);
+        addContainerProperty(PRIORITY_HEADER, String.class, null, PRIORITY_HEADER, null, Table.Align.CENTER);
+        addContainerProperty(SEVERITY_HEADER, String.class, null, SEVERITY_HEADER, null, Table.Align.CENTER);
+        addContainerProperty(TYPE_HEADER, String.class, null, TYPE_HEADER, null, Table.Align.CENTER);
+        addContainerProperty(STATUS_HEADER, String.class, null, STATUS_HEADER, null, Table.Align.CENTER);
 
         setSortEnabled(true);
 
-
         for (int i = 0; i < COUNT; i++) {
             addItem(
-                new Object[]{PRJ_KEY + String.valueOf(COUNT - i), PRJ_NAME, PRIORITY, SEVERITY, TYPE, STATUS},
+                new Object[]{PRJ_KEY_CAPTION + String.valueOf(
+                    COUNT - i), PRJ_NAME_CAPTION, PRIORITY_HEADER, SEVERITY_HEADER, TYPE_HEADER, STATUS_HEADER},
                 i);
         }
         setColumnCollapsingAllowed(true);
         setSelectable(true);
         setImmediate(true);
-
-        setSizeFull();
-        setColumnExpandRatio(NAME, 1.0f);
     }
 }

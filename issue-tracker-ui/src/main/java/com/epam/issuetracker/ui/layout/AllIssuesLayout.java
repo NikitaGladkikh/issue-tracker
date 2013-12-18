@@ -10,18 +10,20 @@ import com.vaadin.util.ReflectTools;
 import java.lang.reflect.Method;
 
 /**
- * Layout to display table of issues and selected issue.
+ * Layout to display table of issues,and add/edit issue.
+ * <p/>
+ * Date: 12/13/13
  *
- * @author Mikita_Hladkikh on 12/13/13.
+ * @author Mikita_Hladkikh
  */
 public class AllIssuesLayout extends VerticalLayout {
 
-    private static final String VIEW_ISSUE = "View";
-    private static final String VIEW_ISSUES = "Return to list of issues";
-    private static final String ADD_ISSUE = "Add Issue";
-    private static final String EDIT_ISSUE = "Edit";
-    private static final String SAVE_ISSUE = "Save";
-    private static final String CANCEL = "Cancel";
+    private static final String VIEW_ISSUE_BUTTON = "View";
+    private static final String VIEW_ISSUES_BUTTON = "Return to list of issues";
+    private static final String ADD_ISSUE_BUTTON = "Add Issue";
+    private static final String EDIT_ISSUE_BUTTON = "Edit";
+    private static final String SAVE_ISSUE_BUTTON = "Save";
+    private static final String CANCEL_BUTTON = "Cancel";
 
     private static final String VIEW_ISSUE_METHOD = "viewIssue";
     private static final String VIEW_ISSUES_METHOD = "viewIssues";
@@ -38,16 +40,16 @@ public class AllIssuesLayout extends VerticalLayout {
     private IssueLayout issueLayout = new IssueLayout();
     private EditIssueLayout editIssueLayout = new EditIssueLayout();
 
-    private VerticalLayout issues = new VerticalLayout();
-    private VerticalLayout issue = new VerticalLayout();
-    private VerticalLayout edit = new VerticalLayout();
+    private VerticalLayout issuesHeadLayout = new VerticalLayout();
+    private VerticalLayout issueHeadLayout = new VerticalLayout();
+    private VerticalLayout editLyaout = new VerticalLayout();
 
-    private Button viewIssue = new Button(VIEW_ISSUE);
-    private Button addIssue = new Button(ADD_ISSUE);
-    private Button viewIssues = new Button(VIEW_ISSUES);
-    private Button editIssue = new Button(EDIT_ISSUE);
-    private Button saveIssue = new Button(SAVE_ISSUE);
-    private Button cancel = new Button(CANCEL);
+    private Button viewIssueButton = new Button(VIEW_ISSUE_BUTTON);
+    private Button addIssueButton = new Button(ADD_ISSUE_BUTTON);
+    private Button viewIssuesButton = new Button(VIEW_ISSUES_BUTTON);
+    private Button editIssueButton = new Button(EDIT_ISSUE_BUTTON);
+    private Button saveIssueButton = new Button(SAVE_ISSUE_BUTTON);
+    private Button cancelButton = new Button(CANCEL_BUTTON);
 
     /**
      * Default constructor.
@@ -61,95 +63,94 @@ public class AllIssuesLayout extends VerticalLayout {
         initIssuesLayout();
         initIssueLayout();
         initEditLayout();
-
-        addComponents(issues, issue, edit);
+        addComponents(issuesHeadLayout, issueHeadLayout, editLyaout);
         setSizeFull();
     }
 
     private void initButtons() {
-        viewIssue.setEnabled(false);
-        editIssue.setEnabled(false);
+        viewIssueButton.setEnabled(false);
+        editIssueButton.setEnabled(false);
 
-        addIssue.setWidth(BUTTON_WIDTH);
-        viewIssue.setWidth(BUTTON_WIDTH);
-        editIssue.setWidth(BUTTON_WIDTH);
-        cancel.setWidth(BUTTON_WIDTH);
-        saveIssue.setWidth(BUTTON_WIDTH);
+        addIssueButton.setWidth(BUTTON_WIDTH);
+        viewIssueButton.setWidth(BUTTON_WIDTH);
+        editIssueButton.setWidth(BUTTON_WIDTH);
+        cancelButton.setWidth(BUTTON_WIDTH);
+        saveIssueButton.setWidth(BUTTON_WIDTH);
 
-        viewIssue.addListener(Button.ClickEvent.class, this, DISPLAY_ISSUE_LISTENER);
-        addIssue.addListener(Button.ClickEvent.class, this, EDIT_ISSUE_LISTENER);
-        viewIssues.addListener(Button.ClickEvent.class, this, DISPLAY_ISSUES_LISTENER);
-        editIssue.addListener(Button.ClickEvent.class, this, EDIT_ISSUE_LISTENER);
-        cancel.addListener(Button.ClickEvent.class, this, DISPLAY_ISSUES_LISTENER);
+        viewIssueButton.addListener(Button.ClickEvent.class, this, DISPLAY_ISSUE_LISTENER);
+        addIssueButton.addListener(Button.ClickEvent.class, this, EDIT_ISSUE_LISTENER);
+        viewIssuesButton.addListener(Button.ClickEvent.class, this, DISPLAY_ISSUES_LISTENER);
+        editIssueButton.addListener(Button.ClickEvent.class, this, EDIT_ISSUE_LISTENER);
+        cancelButton.addListener(Button.ClickEvent.class, this, DISPLAY_ISSUES_LISTENER);
     }
 
     private void initIssuesLayout() {
-        issuesLayout.getTable().addValueChangeListener(new Property.ValueChangeListener() {
+        issuesLayout.getTableIssues().addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
                 if (event.getProperty().getValue() != null) {
-                    viewIssue.setEnabled(true);
-                    editIssue.setEnabled(true);
+                    viewIssueButton.setEnabled(true);
+                    editIssueButton.setEnabled(true);
                 } else {
-                    viewIssue.setEnabled(false);
-                    editIssue.setEnabled(false);
+                    viewIssueButton.setEnabled(false);
+                    editIssueButton.setEnabled(false);
                 }
             }
         });
 
-        HorizontalLayout buttons = new HorizontalLayout();
-        buttons.addComponents(addIssue, viewIssue, editIssue);
-        buttons.setSpacing(true);
-        buttons.setMargin(true);
-        buttons.setSizeUndefined();
+        HorizontalLayout buttonsLayout = new HorizontalLayout();
+        buttonsLayout.addComponents(addIssueButton, viewIssueButton, editIssueButton);
+        buttonsLayout.setSpacing(true);
+        buttonsLayout.setMargin(true);
+        buttonsLayout.setSizeUndefined();
 
-        issues.addComponents(issuesLayout, buttons);
-        issues.setSizeFull();
-        issues.setComponentAlignment(buttons, Alignment.MIDDLE_RIGHT);
-        issues.setExpandRatio(issuesLayout, 1.0f);
+        issuesHeadLayout.addComponents(issuesLayout, buttonsLayout);
+        issuesHeadLayout.setSizeFull();
+        issuesHeadLayout.setComponentAlignment(buttonsLayout, Alignment.MIDDLE_RIGHT);
+        issuesHeadLayout.setExpandRatio(issuesLayout, 1.0f);
     }
 
     private void initIssueLayout() {
-        issue.addComponents(viewIssues, issueLayout);
-        issue.setVisible(false);
-        issue.setComponentAlignment(viewIssues, Alignment.MIDDLE_RIGHT);
-        issue.setSpacing(true);
-        issue.setMargin(true);
-        issue.setSizeFull();
-        issue.setExpandRatio(issueLayout, 1.0f);
+        issueHeadLayout.addComponents(viewIssuesButton, issueLayout);
+        issueHeadLayout.setVisible(false);
+        issueHeadLayout.setComponentAlignment(viewIssuesButton, Alignment.MIDDLE_RIGHT);
+        issueHeadLayout.setSpacing(true);
+        issueHeadLayout.setMargin(true);
+        issueHeadLayout.setSizeFull();
+        issueHeadLayout.setExpandRatio(issueLayout, 1.0f);
     }
 
     private void initEditLayout() {
-        HorizontalLayout editbuttons = new HorizontalLayout();
-        editbuttons.addComponents(saveIssue, cancel);
-        editbuttons.setSpacing(true);
-        editbuttons.setMargin(true);
-        editbuttons.setSizeUndefined();
+        HorizontalLayout editButtonsLayout = new HorizontalLayout();
+        editButtonsLayout.addComponents(saveIssueButton, cancelButton);
+        editButtonsLayout.setSpacing(true);
+        editButtonsLayout.setMargin(true);
+        editButtonsLayout.setSizeUndefined();
 
-        edit.addComponents(editIssueLayout, editbuttons);
-        edit.setVisible(false);
-        edit.setSpacing(true);
-        edit.setMargin(true);
-        edit.setComponentAlignment(editbuttons, Alignment.BOTTOM_RIGHT);
-        edit.setSizeFull();
-        edit.setExpandRatio(editIssueLayout, 1.0f);
+        editLyaout.addComponents(editIssueLayout, editButtonsLayout);
+        editLyaout.setVisible(false);
+        editLyaout.setSpacing(true);
+        editLyaout.setMargin(true);
+        editLyaout.setComponentAlignment(editButtonsLayout, Alignment.BOTTOM_RIGHT);
+        editLyaout.setSizeFull();
+        editLyaout.setExpandRatio(editIssueLayout, 1.0f);
     }
 
     public void viewIssue() {
-        issues.setVisible(false);
-        issue.setVisible(true);
-        edit.setVisible(false);
+        issuesHeadLayout.setVisible(false);
+        issueHeadLayout.setVisible(true);
+        editLyaout.setVisible(false);
     }
 
     public void viewIssues() {
-        issues.setVisible(true);
-        issue.setVisible(false);
-        edit.setVisible(false);
+        issuesHeadLayout.setVisible(true);
+        issueHeadLayout.setVisible(false);
+        editLyaout.setVisible(false);
     }
 
     public void editIssue() {
-        issues.setVisible(false);
-        issue.setVisible(false);
-        edit.setVisible(true);
+        issuesHeadLayout.setVisible(false);
+        issueHeadLayout.setVisible(false);
+        editLyaout.setVisible(true);
     }
 }

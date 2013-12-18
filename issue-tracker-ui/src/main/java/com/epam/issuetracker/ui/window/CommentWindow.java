@@ -12,64 +12,69 @@ import java.lang.reflect.Method;
 
 
 /**
- * Window to leave the comment.
+ * Window to leave the commentButton.
+ * <p/>
+ * Date: 12/12/13
  *
- * @author Mikita_Hladkikh on 12/12/13.
+ * @author Mikita_Hladkikh
  */
 public class CommentWindow extends Window {
 
     private static final String FIELD_WIDTH = "250px";
     private static final String BUTTON_WIDTH = "100px";
 
-    private static final String TXT_COMMENT = "Text";
-    private static final String CANCEL = "Cancel";
-    private static final String COMMENT = "Comment";
+    private static final String TXT_COMMENT_LABEL = "Put your comment here:";
+    private static final String CANCEL_BUTTON = "Cancel";
+    private static final String COMMENT_BUTTON = "Comment";
 
     private static final String CANCEL_METHOD = "cancelClick";
 
     static final Method CANCEL_LISTENER = ReflectTools.findMethod(CommentWindow.class, CANCEL_METHOD);
 
-    private TextArea txtComment = new TextArea(TXT_COMMENT);
+    private TextArea commentTextArea = new TextArea(TXT_COMMENT_LABEL);
 
-    private Button cancel = new Button(CANCEL);
-    private Button comment = new Button(COMMENT);
+    private Button cancelButton = new Button(CANCEL_BUTTON);
+    private Button commentButton = new Button(COMMENT_BUTTON);
+
+    private HorizontalLayout buttonsLayout = new HorizontalLayout();
+    private VerticalLayout windowLayout = new VerticalLayout();
 
     /**
      * Default constructor.
      */
     public CommentWindow() {
-        super(COMMENT);
+        super(COMMENT_BUTTON);
         center();
         setResizable(false);
-
-        txtComment.setWidth(FIELD_WIDTH);
-
-        VerticalLayout fields = new VerticalLayout();
-        fields.addComponents(txtComment);
-        fields.setSpacing(true);
-        fields.setMargin(true);
-
-        HorizontalLayout buttons = new HorizontalLayout();
-        buttons.setSizeFull();
-        comment.setWidth(BUTTON_WIDTH);
-        cancel.setWidth(BUTTON_WIDTH);
-        buttons.addComponents(comment, cancel);
-        buttons.setComponentAlignment(comment, Alignment.MIDDLE_CENTER);
-        buttons.setComponentAlignment(cancel, Alignment.MIDDLE_CENTER);
-        buttons.setSpacing(true);
-        buttons.setMargin(true);
-
-        cancel.addListener(Button.ClickEvent.class, this, CANCEL_LISTENER);
-
-        VerticalLayout window = new VerticalLayout();
-        window.addComponents(fields, buttons);
-
+        initButtons();
+        initLayout();
         setModal(true);
-        setContent(window);
+        setContent(windowLayout);
+    }
+
+    private void initButtons() {
+        cancelButton.addListener(Button.ClickEvent.class, this, CANCEL_LISTENER);
+        commentButton.setWidth(BUTTON_WIDTH);
+        cancelButton.setWidth(BUTTON_WIDTH);
+        buttonsLayout.addComponents(commentButton, cancelButton);
+        buttonsLayout.setComponentAlignment(commentButton, Alignment.MIDDLE_CENTER);
+        buttonsLayout.setComponentAlignment(cancelButton, Alignment.MIDDLE_CENTER);
+        buttonsLayout.setSpacing(true);
+        buttonsLayout.setMargin(true);
+        buttonsLayout.setSizeFull();
+    }
+
+    private void initLayout() {
+        commentTextArea.setWidth(FIELD_WIDTH);
+        VerticalLayout fieldsLayout = new VerticalLayout();
+        fieldsLayout.addComponents(commentTextArea);
+        fieldsLayout.setSpacing(true);
+        fieldsLayout.setMargin(true);
+        windowLayout.addComponents(fieldsLayout, buttonsLayout);
     }
 
     /**
-     * Cancel event for cancel button.
+     * Cancel event for cancelButton button.
      */
     public void cancelClick() {
         close();

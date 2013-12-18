@@ -11,8 +11,10 @@ import java.lang.reflect.Method;
 
 /**
  * Layout to display section view of all projects.
+ * <p/>
+ * Date: 12/12/13
  *
- * @author Mikita_Hladkikh on 12/12/13.
+ * @author Mikita_Hladkikh
  */
 public class ProjectsLayout extends VerticalLayout {
 
@@ -27,6 +29,10 @@ public class ProjectsLayout extends VerticalLayout {
      * Default constructor.
      */
     public ProjectsLayout() {
+        init();
+    }
+
+    private void init() {
         Button addProject = new Button(BUTTON_ADD);
         addProject.setWidth(BUTTON_WIDTH);
         addProject.addListener(Button.ClickEvent.class, this, ADD_CLICK_LISTENER);
@@ -40,7 +46,7 @@ public class ProjectsLayout extends VerticalLayout {
      * Click event for add project button.
      */
     public void addClick() {
-        ProjectWindow sub = new ProjectWindow();
-        UI.getCurrent().addWindow(sub);
+        ProjectWindow projectWindow = new ProjectWindow();
+        UI.getCurrent().addWindow(projectWindow);
     }
 }

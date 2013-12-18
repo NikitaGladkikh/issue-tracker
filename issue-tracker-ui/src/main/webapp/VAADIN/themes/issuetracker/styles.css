@@ -1,0 +1,70 @@
+@import "../reindeer/legacy-styles.css";
+
+.v-captiontext {
+    font-weight: bold;
+}
+
+.v-tabsheet-tabitem, .v-tabsheet-spacertd div, .v-tabsheet-tabitemcell, .v-tabsheet-tabitemcell-first,
+    .v-tabsheet-tabitem .v-caption, .v-tabsheet-tabitemcell-selected, .v-tabsheet-tabitemcell-selected-first,
+    .v-tabsheet-tabitem-selected, .v-tabsheet-tabitem-selected .v-caption, .v-tabsheet-spacertd,
+    .v-table-header-wrap, .v-button-wrap, .v-button, .v-disabled.v-button, .v-window-outerheader {
+        background-image: none;
+}
+
+.v-tabsheet-tabitem, .v-tabsheet-spacertd div, .v-tabsheet-tabitemcell-first, .v-tabsheet-spacertd,
+    .v-table-header-wrap, .v-window-outerheader {
+        background-color: #5487FF;
+}
+
+.v-tabsheet-tabitem, .v-tabsheet-spacertd div, .v-button-caption, .v-window-outerheader {
+    font-weight: bold;
+    color: #FFFFFF;
+    text-shadow: none;
+}
+
+.v-tabsheet-tabitemcell-selected {
+    background-color: #FFFFFF;
+}
+
+.v-tabsheet-tabitemcell-selected-first {
+    background-color: #5487FF;
+}
+.v-tabsheet-tabitem-selected, .v-tabsheet-tabitem-selected .v-caption {
+    color: #5487FF;
+    background-color: #FFFFFF;
+}
+
+.v-table-header-wrap {
+    color: #FFFFFF;
+    font-weight: bold;
+    text-shadow: none;
+}
+
+.v-button {
+    color: #FFFFFF;
+    background-color: #5487FF;
+    background-image: none;
+}
+
+.v-button:focus,.v-button.v-pressed {
+    background-color: #34539E;
+    cursor: pointer;
+    background-image: none;
+}
+
+.v-button:focus .v-button-wrap {
+    background-image: none;
+}
+
+.v-button-wrap:focus,.v-button-wrap.v-pressed {
+    background-color: #000000;
+    cursor: pointer;
+    background-image: none;
+}
+
+.v-disabled.v-button .v-button-wrap {
+    background-image: none;
+    background-color: grey;
+}
+
+

@@ -4,28 +4,30 @@ import com.epam.issuetracker.ui.table.IssuesTable;
 import com.vaadin.ui.VerticalLayout;
 
 /**
- * Layout to display the table of issues.
+ * Layout to display the tableIssues of issues.
+ * <p/>
+ * Date: 12/12/13
  *
- * @author Mikita_Hladkikh on 12/12/13.
+ * @author Mikita_Hladkikh
  */
 public class IssuesLayout extends VerticalLayout {
 
-    private IssuesTable table = new IssuesTable();
+    private IssuesTable tableIssues = new IssuesTable();
 
     /**
      * Default constructor.
      */
     public IssuesLayout() {
-        addComponent(table);
+        addComponent(tableIssues);
         setSizeFull();
     }
 
     /**
-     * Getter for table of issues.
+     * Getter for tableIssues of issues.
      *
      * @return
      */
-    public IssuesTable getTable() {
-        return table;
+    public IssuesTable getTableIssues() {
+        return tableIssues;
     }
 }
