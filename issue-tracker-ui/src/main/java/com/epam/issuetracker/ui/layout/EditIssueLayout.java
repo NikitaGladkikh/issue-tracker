@@ -1,7 +1,7 @@
 package com.epam.issuetracker.ui.layout;
 
+import com.epam.issuetracker.ui.util.LayoutFactory;
 import com.vaadin.ui.ComboBox;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.TextArea;
@@ -32,8 +32,8 @@ public class EditIssueLayout extends VerticalLayout {
 
     private static final String TEXT_FIELD_WIDTH = "100%";
 
-    private VerticalLayout summaryLayout = new VerticalLayout();
-    private VerticalLayout detailsLayout = new VerticalLayout();
+    private VerticalLayout summaryLayout;
+    private VerticalLayout detailsLayout;
 
 
     private TextField issueSummaryTextField = new TextField(ISSUE_CAPTION_SUMMARY);
@@ -63,32 +63,25 @@ public class EditIssueLayout extends VerticalLayout {
         issueSummaryTextField.setWidth(TEXT_FIELD_WIDTH);
         issueDescriptionTextArea.setSizeFull();
 
-        summaryLayout = new VerticalLayout();
-        summaryLayout.addComponents(issueKeyLabel, issueSummaryTextField, issueDescriptionTextArea);
-        summaryLayout.setSpacing(true);
-        summaryLayout.setMargin(true);
+        summaryLayout =
+            LayoutFactory.createVerticalLayout(true, true, issueKeyLabel, issueSummaryTextField,
+                issueDescriptionTextArea);
         summaryLayout.setSizeFull();
         summaryLayout.setExpandRatio(issueDescriptionTextArea, 1.0f);
     }
 
     public void initDetails() {
-        HorizontalLayout typeStatusLayout = setDetailsHorLayout(typeComboBox, statusComboBox);
-        HorizontalLayout priorityResolutionLayout = setDetailsHorLayout(priorityComboBox, resolutionComboBox);
+        HorizontalLayout typeStatusLayout =
+            LayoutFactory.createHorizontalLayout(true, false, typeComboBox, statusComboBox);
+        HorizontalLayout priorityResolutionLayout = LayoutFactory.createHorizontalLayout(true, false, priorityComboBox,
+            resolutionComboBox);
 
         Label detailsLabel = new Label();
         detailsLabel.setCaption(DETAILS_LABEL);
-        detailsLayout = new VerticalLayout();
-        detailsLayout.addComponents(detailsLabel, typeStatusLayout, priorityResolutionLayout, severityComboBox);
-        detailsLayout.setSpacing(true);
-        detailsLayout.setMargin(true);
-        detailsLayout.setSizeFull();
-    }
 
-    private HorizontalLayout setDetailsHorLayout(Component component1, Component component2) {
-        HorizontalLayout newLayout = new HorizontalLayout();
-        newLayout.addComponents(component1, component2);
-        newLayout.setSpacing(true);
-        newLayout.setSizeFull();
-        return newLayout;
+        detailsLayout =
+            LayoutFactory.createVerticalLayout(true, true, detailsLabel, typeStatusLayout, priorityResolutionLayout,
+                severityComboBox);
+        detailsLayout.setSizeFull();
     }
 }

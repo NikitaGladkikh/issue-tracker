@@ -47,7 +47,7 @@
 }
 
 .v-button:focus,.v-button.v-pressed {
-    background-color: #34539E;
+    background-color: none;
     cursor: pointer;
     background-image: none;
 }
@@ -63,8 +63,7 @@
 }
 
 .v-disabled.v-button .v-button-wrap {
+    background-color: #5487FF;
     background-image: none;
-    background-color: grey;
 }
-
 

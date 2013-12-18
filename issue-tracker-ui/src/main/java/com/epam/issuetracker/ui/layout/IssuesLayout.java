@@ -25,7 +25,7 @@ public class IssuesLayout extends VerticalLayout {
     /**
      * Getter for tableIssues of issues.
      *
-     * @return
+     * @return table of issues.
      */
     public IssuesTable getTableIssues() {
         return tableIssues;

@@ -1,10 +1,10 @@
 package com.epam.issuetracker.ui.layout;
 
+import com.epam.issuetracker.ui.util.LayoutFactory;
 import com.epam.issuetracker.ui.window.ArchiveWindow;
 import com.epam.issuetracker.ui.window.ProjectWindow;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
@@ -77,31 +77,18 @@ public class ProjectLayout extends VerticalLayout {
         prjDescriptionLabel.setValue(PRJ_DESCRIPTION_LABEL);
         prjDescriptionLabel.setCaption(DESCRIPTION_LABEL);
 
+        HorizontalLayout buttonsLayout = LayoutFactory.createHorizontalLayout(true, true, editButton, deleteButton);
+        buttonsLayout.setSizeUndefined();
 
-        HorizontalLayout buttons = new HorizontalLayout();
-        buttons.addComponents(editButton, deleteButton);
-        buttons.setSpacing(true);
-        buttons.setMargin(true);
-        buttons.setSizeUndefined();
-
-        addComponents(prjNameLabel, prjShortNameLabel, prjDescriptionLabel, buttons);
-        setComponentAlignment(buttons, Alignment.MIDDLE_RIGHT);
+        addComponents(prjNameLabel, prjShortNameLabel, prjDescriptionLabel, buttonsLayout);
+        setComponentAlignment(buttonsLayout, Alignment.BOTTOM_RIGHT);
         setSpacing(true);
         setMargin(true);
         setSizeFull();
         setExpandRatio(prjNameLabel, 1.0f);
         setExpandRatio(prjShortNameLabel, 1.0f);
         setExpandRatio(prjDescriptionLabel, 10.0f);
-        setExpandRatio(buttons, 1.0f);
-    }
-
-    private VerticalLayout newVerLayout(Component component1, Component component2) {
-        VerticalLayout ver = new VerticalLayout();
-        ver.addComponent(component1);
-        ver.addComponent(component2);
-        ver.setSpacing(true);
-        ver.setMargin(true);
-        return ver;
+        setExpandRatio(buttonsLayout, 1.0f);
     }
 
     /**

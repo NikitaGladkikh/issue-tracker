@@ -1,5 +1,6 @@
 package com.epam.issuetracker.ui.window;
 
+import com.epam.issuetracker.ui.util.LayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -36,8 +37,8 @@ public class CommentWindow extends Window {
     private Button cancelButton = new Button(CANCEL_BUTTON);
     private Button commentButton = new Button(COMMENT_BUTTON);
 
-    private HorizontalLayout buttonsLayout = new HorizontalLayout();
-    private VerticalLayout windowLayout = new VerticalLayout();
+    private HorizontalLayout buttonsLayout;
+    private VerticalLayout windowLayout;
 
     /**
      * Default constructor.
@@ -56,21 +57,17 @@ public class CommentWindow extends Window {
         cancelButton.addListener(Button.ClickEvent.class, this, CANCEL_LISTENER);
         commentButton.setWidth(BUTTON_WIDTH);
         cancelButton.setWidth(BUTTON_WIDTH);
-        buttonsLayout.addComponents(commentButton, cancelButton);
+
+        buttonsLayout = LayoutFactory.createHorizontalLayout(true, true, commentButton, cancelButton);
         buttonsLayout.setComponentAlignment(commentButton, Alignment.MIDDLE_CENTER);
         buttonsLayout.setComponentAlignment(cancelButton, Alignment.MIDDLE_CENTER);
-        buttonsLayout.setSpacing(true);
-        buttonsLayout.setMargin(true);
         buttonsLayout.setSizeFull();
     }
 
     private void initLayout() {
         commentTextArea.setWidth(FIELD_WIDTH);
-        VerticalLayout fieldsLayout = new VerticalLayout();
-        fieldsLayout.addComponents(commentTextArea);
-        fieldsLayout.setSpacing(true);
-        fieldsLayout.setMargin(true);
-        windowLayout.addComponents(fieldsLayout, buttonsLayout);
+        VerticalLayout fieldsLayout = LayoutFactory.createVerticalLayout(true, true, commentTextArea);
+        windowLayout = LayoutFactory.createVerticalLayout(false, false, fieldsLayout, buttonsLayout);
     }
 
     /**

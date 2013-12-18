@@ -1,5 +1,6 @@
 package com.epam.issuetracker.ui.window;
 
+import com.epam.issuetracker.ui.util.LayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -42,8 +43,8 @@ public class ProjectWindow extends Window {
     private Button cancelButton = new Button(CANCEL_BUTTON);
     private Button saveButton = new Button(SAVE_BUTTON);
 
-    private HorizontalLayout buttonsLayout = new HorizontalLayout();
-    private VerticalLayout windowLayout = new VerticalLayout();
+    private HorizontalLayout buttonsLayout;
+    private VerticalLayout windowLayout;
 
     /**
      * Default constructor.
@@ -60,25 +61,22 @@ public class ProjectWindow extends Window {
 
     private void initButtons() {
         cancelButton.addListener(Button.ClickEvent.class, this, ADD_CANCEL_LISTENER);
-        buttonsLayout.setSizeFull();
         saveButton.setWidth(BUTTON_WIDTH);
         cancelButton.setWidth(BUTTON_WIDTH);
-        buttonsLayout.addComponents(saveButton, cancelButton);
+        buttonsLayout = LayoutFactory.createHorizontalLayout(true, true, saveButton, cancelButton);
         buttonsLayout.setComponentAlignment(saveButton, Alignment.MIDDLE_CENTER);
         buttonsLayout.setComponentAlignment(cancelButton, Alignment.MIDDLE_CENTER);
-        buttonsLayout.setSpacing(true);
-        buttonsLayout.setMargin(true);
+        buttonsLayout.setSizeFull();
     }
 
     private void initLayout() {
         nameTextField.setWidth(FIELD_WIDTH);
         shortNameTextField.setWidth(FIELD_WIDTH);
         descriptionTextArea.setWidth(FIELD_WIDTH);
-        VerticalLayout fieldsLayout = new VerticalLayout();
-        fieldsLayout.addComponents(nameTextField, shortNameTextField, descriptionTextArea);
-        fieldsLayout.setSpacing(true);
-        fieldsLayout.setMargin(true);
-        windowLayout.addComponents(fieldsLayout, buttonsLayout);
+
+        VerticalLayout fieldsLayout =
+            LayoutFactory.createVerticalLayout(true, true, nameTextField, shortNameTextField, descriptionTextArea);
+        windowLayout = LayoutFactory.createVerticalLayout(false, false, fieldsLayout, buttonsLayout);
     }
 
     /**

@@ -33,11 +33,11 @@ public class ProjectsLayout extends VerticalLayout {
     }
 
     private void init() {
-        Button addProject = new Button(BUTTON_ADD);
-        addProject.setWidth(BUTTON_WIDTH);
-        addProject.addListener(Button.ClickEvent.class, this, ADD_CLICK_LISTENER);
+        Button addProjectButton = new Button(BUTTON_ADD);
+        addProjectButton.setWidth(BUTTON_WIDTH);
+        addProjectButton.addListener(Button.ClickEvent.class, this, ADD_CLICK_LISTENER);
         ProjectsTable projectsTable = new ProjectsTable();
-        addComponents(addProject, projectsTable);
+        addComponents(addProjectButton, projectsTable);
         setSizeFull();
         setExpandRatio(projectsTable, 1.0f);
     }

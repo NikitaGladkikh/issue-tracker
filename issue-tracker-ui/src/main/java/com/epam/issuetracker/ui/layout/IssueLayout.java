@@ -1,9 +1,9 @@
 package com.epam.issuetracker.ui.layout;
 
+import com.epam.issuetracker.ui.util.LayoutFactory;
 import com.epam.issuetracker.ui.window.CommentWindow;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
-import com.vaadin.ui.Component;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Label;
 import com.vaadin.ui.UI;
@@ -150,9 +150,9 @@ public class IssueLayout extends VerticalLayout {
             "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
             "I think...It's will be...I think...It's will be...I think...";
 
-    private VerticalLayout summaryLayout = new VerticalLayout();
-    private VerticalLayout detailsLayout = new VerticalLayout();
-    private VerticalLayout commentsLayout = new VerticalLayout();
+    private VerticalLayout summaryLayout;
+    private VerticalLayout detailsLayout;
+    private VerticalLayout commentsLayout;
 
     private Button leaveCommentButton = new Button(BUTTON_COMMENT);
 
@@ -168,9 +168,9 @@ public class IssueLayout extends VerticalLayout {
         issueKeyLabel.setCaption(ISSUE_LABEL);
         Label issueSummaryLabel = new Label(ISSUE_SUMMARY_LABEL);
         Label issueDescriptionLabel = new Label(ISSUE_DESCRIPTION_LABEl);
-        summaryLayout.addComponents(issueKeyLabel, issueSummaryLabel, issueDescriptionLabel);
-        summaryLayout.setSpacing(true);
-        summaryLayout.setMargin(true);
+
+        summaryLayout =
+            LayoutFactory.createVerticalLayout(true, true, issueKeyLabel, issueSummaryLabel, issueDescriptionLabel);
         summaryLayout.setSizeFull();
         summaryLayout.setExpandRatio(issueDescriptionLabel, 1.0f);
     }
@@ -188,11 +188,13 @@ public class IssueLayout extends VerticalLayout {
         issueStatusLabel.setCaption(STATUS_LABEL);
         Label issueResolutionLabel = new Label(RESOLUTION_LABEL);
         issueResolutionLabel.setCaption(RESOLUTION_LABEL);
-        HorizontalLayout typeLay = setDetailsHorLayout(issueTypeLabel, issueStatusLabel);
-        HorizontalLayout statusLay = setDetailsHorLayout(issueSeverityLabel, issueResolutionLabel);
-        detailsLayout.addComponents(detailsLabel, typeLay, statusLay, issuePriorityLabel);
-        detailsLayout.setSpacing(true);
-        detailsLayout.setMargin(true);
+        HorizontalLayout typeLay = LayoutFactory.createHorizontalLayout(true, false, issueTypeLabel, issueStatusLabel);
+        typeLay.setSizeFull();
+        HorizontalLayout statusLay = LayoutFactory.createHorizontalLayout(true, false, issueSeverityLabel,
+            issueResolutionLabel);
+        statusLay.setSizeFull();
+        detailsLayout =
+            LayoutFactory.createVerticalLayout(true, true, detailsLabel, typeLay, statusLay, issuePriorityLabel);
         detailsLayout.setSizeFull();
     }
 
@@ -203,20 +205,17 @@ public class IssueLayout extends VerticalLayout {
         Label commentLabel = new Label(COMMENT_LABEL);
 
         leaveCommentButton.addListener(Button.ClickEvent.class, this, COMMENT_LISTENER);
-        VerticalLayout userComment = addComment(userLabel, commentLabel);
+        VerticalLayout userComment = LayoutFactory.createVerticalLayout(true, false, userLabel, commentLabel);
 
-        VerticalLayout allComments = new VerticalLayout();
-        allComments.addComponents(userComment, leaveCommentButton);
-        allComments.setComponentAlignment(leaveCommentButton, Alignment.MIDDLE_RIGHT);
-        allComments.setSpacing(true);
-        allComments.setSizeFull();
-        allComments.setExpandRatio(userComment, 1.0f);
+        VerticalLayout allCommentsLayout =
+            LayoutFactory.createVerticalLayout(true, false, userComment, leaveCommentButton);
+        allCommentsLayout.setComponentAlignment(leaveCommentButton, Alignment.BOTTOM_RIGHT);
+        allCommentsLayout.setSizeFull();
+        allCommentsLayout.setExpandRatio(userComment, 1.0f);
 
-        commentsLayout.addComponents(commentsLabel, allComments);
-        commentsLayout.setSpacing(true);
-        commentsLayout.setMargin(true);
+        commentsLayout = LayoutFactory.createVerticalLayout(true, true, commentsLabel, allCommentsLayout);
         commentsLayout.setSizeFull();
-        commentsLayout.setExpandRatio(allComments, 1.0f);
+        commentsLayout.setExpandRatio(allCommentsLayout, 1.0f);
     }
 
     private void init() {
@@ -224,45 +223,20 @@ public class IssueLayout extends VerticalLayout {
         initDetails();
         initComments();
 
-        VerticalLayout issueInfoLayout = new VerticalLayout();
-        issueInfoLayout.addComponents(summaryLayout, detailsLayout, commentsLayout);
+        VerticalLayout issueInfoLayout =
+            LayoutFactory.createVerticalLayout(false, false, summaryLayout, detailsLayout, commentsLayout);
         issueInfoLayout.setSizeFull();
         issueInfoLayout.setExpandRatio(summaryLayout, 2.0f);
         issueInfoLayout.setExpandRatio(detailsLayout, 1.0f);
         issueInfoLayout.setExpandRatio(commentsLayout, 3.0f);
-
         addComponent(issueInfoLayout);
-    }
-
-    private HorizontalLayout setDetailsHorLayout(Component component1, Component component2) {
-        HorizontalLayout newLay = new HorizontalLayout();
-        newLay.addComponents(component1, component2);
-        newLay.setSpacing(true);
-        newLay.setSizeFull();
-        return newLay;
-    }
-
-    private HorizontalLayout setHorLayout(Component component1, Component component2) {
-        HorizontalLayout newLay = new HorizontalLayout();
-        newLay.addComponents(component1, component2);
-        newLay.setSpacing(true);
-        newLay.setSizeFull();
-        return newLay;
-    }
-
-    private VerticalLayout addComment(Component comp1, Component comp2) {
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.addComponents(comp1, comp2);
-        verticalLayout.setSpacing(true);
-        verticalLayout.setSizeFull();
-        return verticalLayout;
     }
 
     /**
      * Click event for leave comment.
      */
     public void commentClick() {
-        CommentWindow sub = new CommentWindow();
-        UI.getCurrent().addWindow(sub);
+        CommentWindow commentWindow = new CommentWindow();
+        UI.getCurrent().addWindow(commentWindow);
     }
 }

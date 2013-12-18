@@ -1,5 +1,6 @@
 package com.epam.issuetracker.ui.layout;
 
+import com.epam.issuetracker.ui.util.LayoutFactory;
 import com.vaadin.data.Property;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -25,8 +26,8 @@ public class AllIssuesLayout extends VerticalLayout {
     private static final String SAVE_ISSUE_BUTTON = "Save";
     private static final String CANCEL_BUTTON = "Cancel";
 
-    private static final String VIEW_ISSUE_METHOD = "viewIssue";
-    private static final String VIEW_ISSUES_METHOD = "viewIssues";
+    private static final String VIEW_ISSUE_METHOD = "displayIssue";
+    private static final String VIEW_ISSUES_METHOD = "displayIssues";
     private static final String EDIT_ISSUE_METHOD = "editIssue";
 
     private static final String BUTTON_WIDTH = "100px";
@@ -40,9 +41,9 @@ public class AllIssuesLayout extends VerticalLayout {
     private IssueLayout issueLayout = new IssueLayout();
     private EditIssueLayout editIssueLayout = new EditIssueLayout();
 
-    private VerticalLayout issuesHeadLayout = new VerticalLayout();
-    private VerticalLayout issueHeadLayout = new VerticalLayout();
-    private VerticalLayout editLyaout = new VerticalLayout();
+    private VerticalLayout issuesHeadLayout;
+    private VerticalLayout issueHeadLayout;
+    private VerticalLayout editLayout;
 
     private Button viewIssueButton = new Button(VIEW_ISSUE_BUTTON);
     private Button addIssueButton = new Button(ADD_ISSUE_BUTTON);
@@ -63,7 +64,7 @@ public class AllIssuesLayout extends VerticalLayout {
         initIssuesLayout();
         initIssueLayout();
         initEditLayout();
-        addComponents(issuesHeadLayout, issueHeadLayout, editLyaout);
+        addComponents(issuesHeadLayout, issueHeadLayout, editLayout);
         setSizeFull();
     }
 
@@ -88,69 +89,59 @@ public class AllIssuesLayout extends VerticalLayout {
         issuesLayout.getTableIssues().addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                if (event.getProperty().getValue() != null) {
-                    viewIssueButton.setEnabled(true);
-                    editIssueButton.setEnabled(true);
-                } else {
-                    viewIssueButton.setEnabled(false);
-                    editIssueButton.setEnabled(false);
-                }
+                boolean enableButtons = null != event.getProperty().getValue() ? true : false;
+                viewIssueButton.setEnabled(enableButtons);
+                editIssueButton.setEnabled(enableButtons);
             }
         });
 
-        HorizontalLayout buttonsLayout = new HorizontalLayout();
-        buttonsLayout.addComponents(addIssueButton, viewIssueButton, editIssueButton);
-        buttonsLayout.setSpacing(true);
-        buttonsLayout.setMargin(true);
+        HorizontalLayout buttonsLayout =
+            LayoutFactory.createHorizontalLayout(true, true, addIssueButton, viewIssueButton, editIssueButton);
         buttonsLayout.setSizeUndefined();
 
-        issuesHeadLayout.addComponents(issuesLayout, buttonsLayout);
+        issuesHeadLayout = LayoutFactory.createVerticalLayout(false, false, issuesLayout, buttonsLayout);
         issuesHeadLayout.setSizeFull();
-        issuesHeadLayout.setComponentAlignment(buttonsLayout, Alignment.MIDDLE_RIGHT);
+        issuesHeadLayout.setComponentAlignment(buttonsLayout, Alignment.BOTTOM_RIGHT);
         issuesHeadLayout.setExpandRatio(issuesLayout, 1.0f);
     }
 
     private void initIssueLayout() {
-        issueHeadLayout.addComponents(viewIssuesButton, issueLayout);
+        issueHeadLayout = LayoutFactory.createVerticalLayout(true, true, viewIssuesButton, issueLayout);
         issueHeadLayout.setVisible(false);
-        issueHeadLayout.setComponentAlignment(viewIssuesButton, Alignment.MIDDLE_RIGHT);
-        issueHeadLayout.setSpacing(true);
-        issueHeadLayout.setMargin(true);
+        issueHeadLayout.setComponentAlignment(viewIssuesButton, Alignment.BOTTOM_RIGHT);
         issueHeadLayout.setSizeFull();
         issueHeadLayout.setExpandRatio(issueLayout, 1.0f);
     }
 
     private void initEditLayout() {
-        HorizontalLayout editButtonsLayout = new HorizontalLayout();
-        editButtonsLayout.addComponents(saveIssueButton, cancelButton);
+        HorizontalLayout editButtonsLayout =
+            LayoutFactory.createHorizontalLayout(true, true, saveIssueButton, cancelButton);
         editButtonsLayout.setSpacing(true);
         editButtonsLayout.setMargin(true);
         editButtonsLayout.setSizeUndefined();
 
-        editLyaout.addComponents(editIssueLayout, editButtonsLayout);
-        editLyaout.setVisible(false);
-        editLyaout.setSpacing(true);
-        editLyaout.setMargin(true);
-        editLyaout.setComponentAlignment(editButtonsLayout, Alignment.BOTTOM_RIGHT);
-        editLyaout.setSizeFull();
-        editLyaout.setExpandRatio(editIssueLayout, 1.0f);
+        editLayout = LayoutFactory.createVerticalLayout(false, false, editIssueLayout, editButtonsLayout);
+        editLayout.setVisible(false);
+        editLayout.setComponentAlignment(editButtonsLayout, Alignment.BOTTOM_RIGHT);
+        editLayout.setSizeFull();
+        editLayout.setExpandRatio(editIssueLayout, 1.0f);
     }
 
-    public void viewIssue() {
+    public void displayIssue() {
         issuesHeadLayout.setVisible(false);
         issueHeadLayout.setVisible(true);
-        editLyaout.setVisible(false);
+        editLayout.setVisible(false);
     }
 
-    public void viewIssues() {
+    public void displayIssues() {
         issuesHeadLayout.setVisible(true);
         issueHeadLayout.setVisible(false);
-        editLyaout.setVisible(false);
+        editLayout.setVisible(false);
     }
 
     public void editIssue() {
         issuesHeadLayout.setVisible(false);
         issueHeadLayout.setVisible(false);
-        editLyaout.setVisible(true);
+        editLayout.setVisible(true);
     }
 }
