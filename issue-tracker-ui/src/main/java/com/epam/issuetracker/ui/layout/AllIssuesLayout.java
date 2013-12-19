@@ -89,7 +89,7 @@ public class AllIssuesLayout extends VerticalLayout {
         issuesLayout.getTableIssues().addValueChangeListener(new Property.ValueChangeListener() {
             @Override
             public void valueChange(Property.ValueChangeEvent event) {
-                boolean enableButtons = null != event.getProperty().getValue() ? true : false;
+                boolean enableButtons = null != event.getProperty().getValue();
                 viewIssueButton.setEnabled(enableButtons);
                 editIssueButton.setEnabled(enableButtons);
             }

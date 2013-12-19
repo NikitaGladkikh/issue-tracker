@@ -188,13 +188,13 @@ public class IssueLayout extends VerticalLayout {
         issueStatusLabel.setCaption(STATUS_LABEL);
         Label issueResolutionLabel = new Label(RESOLUTION_LABEL);
         issueResolutionLabel.setCaption(RESOLUTION_LABEL);
-        HorizontalLayout typeLay = LayoutFactory.createHorizontalLayout(true, false, issueTypeLabel, issueStatusLabel);
-        typeLay.setSizeFull();
-        HorizontalLayout statusLay = LayoutFactory.createHorizontalLayout(true, false, issueSeverityLabel,
+        HorizontalLayout typeLayout = LayoutFactory.createHorizontalLayout(true, false, issueTypeLabel, issueStatusLabel);
+        typeLayout.setSizeFull();
+        HorizontalLayout statusLayout = LayoutFactory.createHorizontalLayout(true, false, issueSeverityLabel,
             issueResolutionLabel);
-        statusLay.setSizeFull();
+        statusLayout.setSizeFull();
         detailsLayout =
-            LayoutFactory.createVerticalLayout(true, true, detailsLabel, typeLay, statusLay, issuePriorityLabel);
+            LayoutFactory.createVerticalLayout(true, true, detailsLabel, typeLayout, statusLayout, issuePriorityLabel);
         detailsLayout.setSizeFull();
     }
 
