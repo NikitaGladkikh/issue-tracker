@@ -1,0 +1,6 @@
+repositories {
+    mavenCentral()
+}
+dependencies {
+    testCompile "junit:junit:${jUnitVersion}"
+}

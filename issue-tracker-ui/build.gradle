@@ -1,7 +1,5 @@
-apply plugin: 'java'
 apply plugin: 'war'
 apply plugin: 'tomcat'
-apply plugin: 'idea'
 
 buildscript {
     repositories {
@@ -25,7 +23,7 @@ dependencies {
     compile("com.vaadin:vaadin-client-compiled:${vaadinVersion}")
 
     tomcat("org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
-        "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}")
+            "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}")
     tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
         exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
     }

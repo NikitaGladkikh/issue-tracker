@@ -11,7 +11,7 @@ import com.vaadin.ui.VerticalLayout;
  *
  * @author Mikita_Hladkikh
  */
-public class LayoutFactory {
+public final class LayoutFactory {
 
     private LayoutFactory() {
         new AssertionError();
@@ -22,16 +22,21 @@ public class LayoutFactory {
      * transmitted VAADIN UI components.
      *
      * @param enableSpacing enable spacing in layout.
-     * @param enableMargin enable margin in layouts.
-     * @param components which are used for creating layout.
+     * @param enableMargin  enable margin in layouts.
+     * @param components    which are used for creating layout.
      * @return new prepared vertical layout.
      */
     public static VerticalLayout createVerticalLayout(boolean enableSpacing, boolean enableMargin,
                                                       Component... components) {
-        VerticalLayout verticalLayout = new VerticalLayout(components);
-        verticalLayout.setSpacing(enableSpacing);
-        verticalLayout.setMargin(enableMargin);
-        return verticalLayout;
+        if (null != components) {
+            VerticalLayout verticalLayout = new VerticalLayout(components);
+            verticalLayout.setSpacing(enableSpacing);
+            verticalLayout.setMargin(enableMargin);
+            return verticalLayout;
+        } else {
+            return new VerticalLayout();
+        }
+
     }
 
     /**
@@ -39,15 +44,19 @@ public class LayoutFactory {
      * transmitted VAADIN UI components.
      *
      * @param enableSpacing enable spacing in layout.
-     * @param enableMargin enable margin in layouts.
-     * @param components which are used for creating layout.
+     * @param enableMargin  enable margin in layouts.
+     * @param components    which are used for creating layout.
      * @return new prepared horizontal layout.
      */
     public static HorizontalLayout createHorizontalLayout(boolean enableSpacing, boolean enableMargin,
                                                           Component... components) {
-        HorizontalLayout horizontalLayout = new HorizontalLayout(components);
-        horizontalLayout.setSpacing(enableSpacing);
-        horizontalLayout.setMargin(enableMargin);
-        return horizontalLayout;
+        if (null != components) {
+            HorizontalLayout horizontalLayout = new HorizontalLayout(components);
+            horizontalLayout.setSpacing(enableSpacing);
+            horizontalLayout.setMargin(enableMargin);
+            return horizontalLayout;
+        } else {
+            return new HorizontalLayout();
+        }
     }
 }
