@@ -13,13 +13,6 @@ public class Comment {
     private String comment;
 
     /**
-     * Default constructor.
-     */
-    public Comment() {
-
-    }
-
-    /**
      * Getter for user of comment.
      *
      * @return user
@@ -57,32 +50,32 @@ public class Comment {
 
     @Override
     public boolean equals(Object object) {
-        if (null == object) {
-            return false;
+        if (this == object) {
+            return true;
         }
         if (!(object instanceof Comment)) {
             return false;
         }
-        if (this == object) {
-            return true;
+        Comment that = (Comment) object;
+        if (null != user ? !user.equals(that.user) : null != that.user) {
+            return false;
         }
-        Comment newComment = (Comment) object;
-        return user.equals(newComment.user) && newComment.equals(newComment.comment);
+        if (null != comment ? !comment.equals(that.comment) : null != that.comment) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = 31;
-        result = 37 * result + user.hashCode();
-        result = 37 * result + comment.hashCode();
-        return result;
+        int result = 37 + (null == user ? 0 : user.hashCode());
+        return 31 * result + (null == comment ? 0 : comment.hashCode());
     }
 
     @Override
     public String toString() {
-        return new StringBuilder().append("User: ")
-            .append(user)
-            .append(" , Comment: ")
+        return new StringBuilder(", User: ").append(user)
+            .append(", Comment: ")
             .append(comment)
             .toString();
     }

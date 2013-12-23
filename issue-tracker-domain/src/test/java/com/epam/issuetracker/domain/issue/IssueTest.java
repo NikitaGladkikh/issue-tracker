@@ -73,29 +73,39 @@ public class IssueTest {
     }
 
     @Test
-    public void testEqualsWithNull() {
-        assertFalse(issue.equals(null));
-    }
-
-    @Test
     public void testEqualsWithOneIssue() {
         assertTrue(issue.equals(issue));
     }
 
     @Test
-    public void testEqualsWithSameIssues() {
-        Issue newIssue = buildIssue();
-        newIssue.setComments(commentList);
-        assertTrue(issue.equals(newIssue) == newIssue.equals(issue));
+    public void testEqualsWithNull() {
+        assertFalse(issue.equals(null));
+    }
+
+    @Test
+    public void testEqualsWithAnotherClass() {
+        assertFalse(issue.equals(new String(USER)));
+    }
+
+    @Test
+    public void testEqualsWithFields() {
+        Issue thatIssue = buildIssue();
+        thatIssue.setComments(commentList);
+        assertTrue(issue.equals(thatIssue));
+        thatIssue.setType(null);
+        assertFalse(issue.equals(thatIssue));
+        issue.setType(null);
+        assertTrue(issue.equals(thatIssue));
     }
 
     @Test
     public void testHashCode() {
-        Issue newIssue = buildIssue();
-        newIssue.setComments(commentList);
-        assertEquals(issue.hashCode(), newIssue.hashCode());
-        newIssue.setPriority(PRIORITY + KEY);
-        assertNotEquals(issue.hashCode(), newIssue.hashCode());
+        Issue thatIssue = buildIssue();
+        thatIssue.setComments(commentList);
+        assertEquals(issue.hashCode(), issue.hashCode());
+        assertEquals(issue.hashCode(), thatIssue.hashCode());
+        thatIssue.setPriority(PRIORITY + KEY);
+        assertNotEquals(issue.hashCode(), thatIssue.hashCode());
     }
 
     private Issue buildIssue() {

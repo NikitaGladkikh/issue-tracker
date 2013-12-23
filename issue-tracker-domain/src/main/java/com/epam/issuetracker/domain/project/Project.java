@@ -14,13 +14,6 @@ public class Project {
     private String description;
 
     /**
-     * Default constructor.
-     */
-    public Project() {
-
-    }
-
-    /**
      * Getter for name.
      *
      * @return name of project
@@ -76,38 +69,39 @@ public class Project {
 
     @Override
     public boolean equals(Object object) {
-        if (null == object) {
-            return false;
+        if (this == object) {
+            return true;
         }
         if (!(object instanceof Project)) {
             return false;
         }
-        if (this == object) {
-            return true;
+        Project that = (Project) object;
+        if (null != name ? !name.equals(that.name) : null != that.name) {
+            return false;
         }
-        Project project = (Project) object;
-        return name.equals(project.name) && shortName.equals(project.shortName) && description.equals(
-            project.description);
+        if (null != shortName ? !shortName.equals(that.shortName) : null != that.shortName) {
+            return false;
+        }
+        if (null != description ? !description.equals(that.description) : null != that.description) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = 31;
-        result = 37 * result + name.hashCode();
-        result = 37 * result + shortName.hashCode();
-        result = 37 * result + description.hashCode();
-        return result;
+        int result = 37 + (null == name ? 0 : name.hashCode());
+        result = 31 * result + (null == shortName ? 0 : shortName.hashCode());
+        return 31 * result + (null == description ? 0 : description.hashCode());
     }
 
     @Override
     public String toString() {
-        return new StringBuilder().append("Name: ")
-            .append(name)
+        return new StringBuilder("Name: ").append(name)
             .append(", Short Name: ")
             .append(shortName)
             .append(", Description: ")
-            .append(
-                description)
+            .append(description)
             .toString();
     }
 }

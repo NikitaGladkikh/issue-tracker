@@ -46,27 +46,38 @@ public class ProjectTest {
     }
 
     @Test
-    public void testEqualsWithNull() {
-        assertFalse(project.equals(null));
-    }
-
-    @Test
     public void testEqualsWithOneProject() {
         assertTrue(project.equals(project));
     }
 
     @Test
-    public void testEqualsWithSameProjects() {
-        Project newProject = buildProject();
-        assertTrue(project.equals(newProject) == newProject.equals(project));
+    public void testEqualsWithNull() {
+        assertFalse(project.equals(null));
     }
 
     @Test
+    public void testEqualsWithAnotherClass() {
+        assertFalse(project.equals(new String(NAME)));
+    }
+
+    @Test
+    public void testEqualsWithFields() {
+        Project thatProject = buildProject();
+        assertTrue(project.equals(thatProject));
+        thatProject.setShortName(null);
+        assertFalse(project.equals(thatProject));
+        project.setShortName(null);
+        assertTrue(project.equals(thatProject));
+    }
+
+
+    @Test
     public void testHashCode() {
-        Project newProject = buildProject();
-        assertEquals(project.hashCode(), newProject.hashCode());
-        newProject.setDescription(DESCRIPTION + NAME);
-        assertNotEquals(project.hashCode(), newProject.hashCode());
+        Project anotherProject = buildProject();
+        assertEquals(project.hashCode(), project.hashCode());
+        assertEquals(project.hashCode(), anotherProject.hashCode());
+        anotherProject.setDescription(DESCRIPTION + NAME);
+        assertNotEquals(project.hashCode(), anotherProject.hashCode());
     }
 
     private Project buildProject() {

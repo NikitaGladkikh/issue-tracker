@@ -24,13 +24,6 @@ public class Issue {
     private List<Comment> comments;
 
     /**
-     * Default constructor.
-     */
-    public Issue() {
-
-    }
-
-    /**
      * Getter for key of issue.
      *
      * @return key
@@ -176,53 +169,68 @@ public class Issue {
 
     @Override
     public boolean equals(Object object) {
-        if (null == object) {
-            return false;
+        if (this == object) {
+            return true;
         }
         if (!(object instanceof Issue)) {
             return false;
         }
-        if (this == object) {
-            return true;
+        Issue that = (Issue) object;
+        if (null != comments ? !comments.equals(that.comments) : null != that.comments) {
+            return false;
         }
-        Issue issue = (Issue) object;
-        return key.equals(issue.key) && summary.equals(issue.summary) && type.equals(issue.type) && status.equals(
-            issue.status) && priority.equals(issue.priority) && resolution.equals(issue.resolution) && severity.equals(
-            issue.severity) && comments.equals(issue.comments);
+        if (null != key ? !key.equals(that.key) : null != that.key) {
+            return false;
+        }
+        if (null != priority ? !priority.equals(that.priority) : null != that.priority) {
+            return false;
+        }
+        if (null != resolution ? !resolution.equals(that.resolution) : null != that.resolution) {
+            return false;
+        }
+        if (null != severity ? !severity.equals(that.severity) : null != that.severity) {
+            return false;
+        }
+        if (null != status ? !status.equals(that.status) : null != that.status) {
+            return false;
+        }
+        if (null != summary ? !summary.equals(that.summary) : null != that.summary) {
+            return false;
+        }
+        if (null != type ? !type.equals(that.type) : null != that.type) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int hashCode() {
-        int result = 31;
-        result = 37 * result + key.hashCode();
-        result = 37 * result + summary.hashCode();
-        result = 37 * result + type.hashCode();
-        result = 37 * result + status.hashCode();
-        result = 37 * result + priority.hashCode();
-        result = 37 * result + resolution.hashCode();
-        result = 37 * result + severity.hashCode();
-        result = 37 * result + comments.hashCode();
-        return result;
+        int result = 37 + (null == comments ? 0 : comments.hashCode());
+        result = 31 * result + (null == key ? 0 : key.hashCode());
+        result = 31 * result + (null == priority ? 0 : priority.hashCode());
+        result = 31 * result + (null == resolution ? 0 : resolution.hashCode());
+        result = 31 * result + (null == severity ? 0 : severity.hashCode());
+        result = 31 * result + (null == status ? 0 : status.hashCode());
+        result = 31 * result + (null == summary ? 0 : summary.hashCode());
+        return 31 * result + (null == type ? 0 : type.hashCode());
     }
 
     @Override
     public String toString() {
-        return new StringBuilder().append("Key: ")
-            .append(key)
-            .append(" , Summary: ")
+        return new StringBuilder("Key: ").append(key)
+            .append(", Summary: ")
             .append(summary)
-            .append(" , Type: ")
+            .append(", Type: ")
             .append(type)
-            .append(" , Status: ")
+            .append(", Status: ")
             .append(status)
-            .append(" , Priority: ")
+            .append(", Priority: ")
             .append(priority)
             .append(", Resolution: ")
             .append(resolution)
-            .append(" , Severity: ")
+            .append(", Severity: ")
             .append(severity)
-            .append(" , Comment: ")
-            .append(comments)
-            .toString();
+            .append(", Comments: ")
+            .append(comments).toString();
     }
 }
