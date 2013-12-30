@@ -1,5 +1,6 @@
 package com.epam.issuetracker.ui.window;
 
+import com.epam.issuetracker.service.impl.ProjectService;
 import com.epam.issuetracker.ui.util.LayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -12,7 +13,7 @@ import com.vaadin.util.ReflectTools;
 import java.lang.reflect.Method;
 
 /**
- * Window to confirmButton put the project to archive.
+ * Window to archiveButton put the project to archive.
  * <p/>
  * Date: 12/17/13
  *
@@ -27,23 +28,22 @@ public class ArchiveWindow extends Window {
     private static final String NO_BUTTON = "No";
     private static final String YES_BUTTON = "Yes";
 
-    private static final String CANCEL_METHOD = "cancelClick";
-
-    static final Method CANCEL_LISTENER = ReflectTools.findMethod(ArchiveWindow.class, CANCEL_METHOD);
+    static final Method CANCEL_LISTENER = ReflectTools.findMethod(ArchiveWindow.class, "clickCancel");
+    static final Method ARCHIVE_LISTENER = ReflectTools.findMethod(ArchiveWindow.class, "clickArchive");
 
     private Label questionLabel = new Label(QUESTION_LABEL);
 
     private Button cancelButton = new Button(NO_BUTTON);
-    private Button confirmButton = new Button(YES_BUTTON);
+    private Button archiveButton = new Button(YES_BUTTON);
 
     private HorizontalLayout buttonsLayout;
     private VerticalLayout windowLayout;
+    private ProjectService service = new ProjectService();
+    private String projectId;
 
-    /**
-     * Default constructor.
-     */
-    public ArchiveWindow() {
+    public ArchiveWindow(String projectId) {
         super(CONFIRM_LABEL);
+        this.projectId = projectId;
         center();
         setResizable(false);
         initButtons();
@@ -54,10 +54,11 @@ public class ArchiveWindow extends Window {
 
     private void initButtons() {
         cancelButton.addListener(Button.ClickEvent.class, this, CANCEL_LISTENER);
-        confirmButton.setWidth(BUTTON_WIDTH);
+        archiveButton.addListener(Button.ClickEvent.class, this, ARCHIVE_LISTENER);
+        archiveButton.setWidth(BUTTON_WIDTH);
         cancelButton.setWidth(BUTTON_WIDTH);
-        buttonsLayout = LayoutFactory.createHorizontalLayout(true,true, confirmButton, cancelButton);
-        buttonsLayout.setComponentAlignment(confirmButton, Alignment.MIDDLE_CENTER);
+        buttonsLayout = LayoutFactory.createHorizontalLayout(true, true, archiveButton, cancelButton);
+        buttonsLayout.setComponentAlignment(archiveButton, Alignment.MIDDLE_CENTER);
         buttonsLayout.setComponentAlignment(cancelButton, Alignment.MIDDLE_CENTER);
         buttonsLayout.setSizeFull();
     }
@@ -70,7 +71,15 @@ public class ArchiveWindow extends Window {
     /**
      * Cancel event for no button.
      */
-    public void cancelClick() {
+    public void clickCancel() {
+        close();
+    }
+
+    /**
+     * Archive event for yes button.
+     */
+    public void clickArchive() {
+        service.archiveProject(projectId);
         close();
     }
 }

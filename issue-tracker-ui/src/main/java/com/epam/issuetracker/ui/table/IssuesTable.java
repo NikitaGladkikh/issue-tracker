@@ -1,5 +1,12 @@
 package com.epam.issuetracker.ui.table;
 
+import com.epam.issuetracker.domain.enums.TypeEnum;
+import com.epam.issuetracker.domain.issue.Issue;
+import com.epam.issuetracker.service.impl.IssueService;
+import com.epam.issuetracker.ui.event.ProjectSelectedEvent;
+import com.vaadin.data.Item;
+import com.vaadin.data.util.AbstractBeanContainer;
+import com.vaadin.data.util.BeanContainer;
 import com.vaadin.ui.Table;
 
 /**
@@ -18,9 +25,9 @@ public class IssuesTable extends Table {
     private static final String TYPE_HEADER = "type";
     private static final String STATUS_HEADER = "status";
 
-    private static final String PRJ_KEY_CAPTION = "prj-";
-    private static final String PRJ_NAME_CAPTION = "Project_1";
-    private static final int COUNT = 100;
+    private IssueService service = new IssueService();
+    private BeanContainer<String, Issue> container = new BeanContainer<>(Issue.class);
+
 
     /**
      * Default constructor.
@@ -31,24 +38,64 @@ public class IssuesTable extends Table {
         setColumnExpandRatio(NAME_HEADER, 1.0f);
     }
 
-    private void initTable() {
-        addContainerProperty(KEY_HEADER, String.class, null, KEY_HEADER, null, Table.Align.CENTER);
-        addContainerProperty(NAME_HEADER, String.class, null, NAME_HEADER, null, Table.Align.CENTER);
-        addContainerProperty(PRIORITY_HEADER, String.class, null, PRIORITY_HEADER, null, Table.Align.CENTER);
-        addContainerProperty(SEVERITY_HEADER, String.class, null, SEVERITY_HEADER, null, Table.Align.CENTER);
-        addContainerProperty(TYPE_HEADER, String.class, null, TYPE_HEADER, null, Table.Align.CENTER);
-        addContainerProperty(STATUS_HEADER, String.class, null, STATUS_HEADER, null, Table.Align.CENTER);
-
-        setSortEnabled(true);
-
-        for (int i = 0; i < COUNT; i++) {
-            addItem(
-                new Object[]{PRJ_KEY_CAPTION + String.valueOf(
-                    COUNT - i), PRJ_NAME_CAPTION, PRIORITY_HEADER, SEVERITY_HEADER, TYPE_HEADER, STATUS_HEADER},
-                i);
+    /**
+     * Refresh data of container.
+     *
+     * @param event
+     */
+    public void refresh(ProjectSelectedEvent event) {
+        container.removeAllItems();
+        if (null != event.getProjectId()) {
+            container.addAll(service.getAllIssues(event.getProjectId()));
         }
+    }
+
+    private void initTable() {
+        initContainer();
+        setContainerDataSource(container);
+        setVisibleColumns(KEY_HEADER, NAME_HEADER, PRIORITY_HEADER, SEVERITY_HEADER, TYPE_HEADER, STATUS_HEADER);
+        setSortEnabled(true);
         setColumnCollapsingAllowed(true);
         setSelectable(true);
         setImmediate(true);
+        setColumnAlignment(TYPE_HEADER, Align.CENTER);
+
+
+        setCellStyleGenerator(new CellStyleGenerator() {
+            @Override
+            public String getStyle(Table source, Object itemId, Object propertyId) {
+                Item item = getItem(itemId);
+                if ("type".equals(propertyId)) {
+                    for (TypeEnum type : TypeEnum.values()) {
+                        if (type.equals(item.getItemProperty("type").getValue())) {
+                            return type.getType();
+                        }
+                    }
+                }
+                return null;
+            }
+        });
+        addGeneratedColumn("type", new ColumnGenerator() {
+            @Override
+            public Object generateCell(Table source, Object itemId, Object columnId) {
+                Item item = getItem(itemId);
+                for (TypeEnum type : TypeEnum.values()) {
+                    if (type.equals(item.getItemProperty("type").getValue())) {
+                        return type.getType().toUpperCase().charAt(0);
+                    }
+                }
+                return null;
+            }
+        });
+
+    }
+
+    private void initContainer() {
+        container.setBeanIdResolver(new AbstractBeanContainer.BeanIdResolver<String, Issue>() {
+            @Override
+            public String getIdForBean(Issue bean) {
+                return bean.getId();
+            }
+        });
     }
 }

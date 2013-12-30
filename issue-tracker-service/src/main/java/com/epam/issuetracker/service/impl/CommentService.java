@@ -16,21 +16,9 @@ import java.util.UUID;
 public class CommentService implements ICommentService {
 
     private static final String USER = "User";
-    private static final String COMMENT = "CommentCommentCommentCommentCommentComment";
+    private static final String COMMENT = "Comment Comment Comment Comment Comment Comment";
 
     private List<Comment> comments = buildComments();
-
-    private List<Comment> buildComments() {
-        List<Comment> tempComments = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            Comment comment = new Comment();
-            comment.setId(UUID.randomUUID().toString());
-            comment.setUser(new StringBuilder(USER).append(i).toString());
-            comment.setComment(new StringBuilder(COMMENT).append(i).toString());
-            tempComments.add(comment);
-        }
-        return tempComments;
-    }
 
     @Override
     public List<Comment> getAllComments(String idIssue) {
@@ -40,5 +28,17 @@ public class CommentService implements ICommentService {
     @Override
     public void addComment(Comment comment, String idIssue) {
         comments.add(comment);
+    }
+
+    private List<Comment> buildComments() {
+        List<Comment> tempComments = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            Comment comment = new Comment();
+            comment.setId(UUID.randomUUID().toString());
+            comment.setUser(USER);
+            comment.setComment(COMMENT);
+            tempComments.add(comment);
+        }
+        return tempComments;
     }
 }

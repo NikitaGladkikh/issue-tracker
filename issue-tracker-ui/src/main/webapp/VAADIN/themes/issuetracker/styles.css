@@ -67,3 +67,12 @@
     background-image: none;
 }
 
+.v-table-cell-content-bug {
+    background-color: #FF7E77;
+}
+.v-table-cell-content-environment {
+    background-color: #9BFFAD;
+}
+.v-table-cell-content-specification {
+    background-color: #FFE368;
+}
