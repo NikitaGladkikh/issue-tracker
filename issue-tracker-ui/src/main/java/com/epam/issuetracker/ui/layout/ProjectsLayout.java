@@ -1,7 +1,9 @@
 package com.epam.issuetracker.ui.layout;
 
+import com.epam.issuetracker.ui.event.ProjectSelectedEvent;
 import com.epam.issuetracker.ui.table.ProjectsTable;
 import com.epam.issuetracker.ui.window.ProjectWindow;
+import com.vaadin.data.Property;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
@@ -21,9 +23,10 @@ public class ProjectsLayout extends VerticalLayout {
     private static final String BUTTON_WIDTH = "100%";
     private static final String BUTTON_ADD = "Add Project";
 
-    private static final String ADD_METHOD = "addClick";
+    static final Method ADD_CLICK = ReflectTools.findMethod(ProjectsLayout.class, "clickAdd");
+    static final Method PROJECT_CLICK = ReflectTools.findMethod(ProjectsLayout.class, "selectProject",
+        Property.ValueChangeEvent.class);
 
-    static final Method ADD_CLICK_LISTENER = ReflectTools.findMethod(ProjectsLayout.class, ADD_METHOD);
 
     /**
      * Default constructor.
@@ -33,10 +36,11 @@ public class ProjectsLayout extends VerticalLayout {
     }
 
     private void init() {
+        ProjectsTable projectsTable = new ProjectsTable();
         Button addProjectButton = new Button(BUTTON_ADD);
         addProjectButton.setWidth(BUTTON_WIDTH);
-        addProjectButton.addListener(Button.ClickEvent.class, this, ADD_CLICK_LISTENER);
-        ProjectsTable projectsTable = new ProjectsTable();
+        addProjectButton.addListener(Button.ClickEvent.class, this, ADD_CLICK);
+        projectsTable.addListener(Property.ValueChangeEvent.class, this, PROJECT_CLICK);
         addComponents(addProjectButton, projectsTable);
         setSizeFull();
         setExpandRatio(projectsTable, 1.0f);
@@ -45,8 +49,21 @@ public class ProjectsLayout extends VerticalLayout {
     /**
      * Click event for add project button.
      */
-    public void addClick() {
+    public void clickAdd() {
         ProjectWindow projectWindow = new ProjectWindow();
         UI.getCurrent().addWindow(projectWindow);
+    }
+
+    /**
+     * Create event of selected project.
+     *
+     * @param event of selected project in table.
+     */
+    public void selectProject(Property.ValueChangeEvent event) {
+        if (null != event.getProperty().getValue()) {
+            fireEvent(new ProjectSelectedEvent(this, event.getProperty().getValue().toString()));
+        } else {
+            fireEvent(new ProjectSelectedEvent(this, null));
+        }
     }
 }

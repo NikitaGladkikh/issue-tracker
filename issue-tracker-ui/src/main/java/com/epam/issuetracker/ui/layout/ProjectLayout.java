@@ -1,5 +1,8 @@
 package com.epam.issuetracker.ui.layout;
 
+import com.epam.issuetracker.domain.project.Project;
+import com.epam.issuetracker.service.impl.ProjectService;
+import com.epam.issuetracker.ui.event.ProjectSelectedEvent;
 import com.epam.issuetracker.ui.util.LayoutFactory;
 import com.epam.issuetracker.ui.window.ArchiveWindow;
 import com.epam.issuetracker.ui.window.ProjectWindow;
@@ -25,34 +28,27 @@ public class ProjectLayout extends VerticalLayout {
     private static final String NAME_LABEL = "Name:";
     private static final String SHORT_NAME_LABEL = "Short Name:";
     private static final String DESCRIPTION_LABEL = "Description:";
-    private static final String EDIT_METHOD = "editClick";
-    private static final String DELETE_METHOD = "deleteClick";
 
     private static final String EDIT_BUTTON = "Edit";
     private static final String DELETE_BUTTON = "Archive";
 
-    private static final String PRJ_NAME_LABEL = "Project_1";
-    private static final String PRJ_SHORT_NAME_LABEL = "prj_1";
-    private static final String PRJ_DESCRIPTION_LABEL = "Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 " +
-        "Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 " +
-        "Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 " +
-        "Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 " +
-        "Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 " +
-        "Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 " +
-        "Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 Project_1 " +
-        "Project_1 Project_1 Project_1 Project_1 vv";
-
     private static final String BUTTON_WIDTH = "100px";
 
-    private Label prjNameLabel = new Label();
-    private Label prjShortNameLabel = new Label();
-    private Label prjDescriptionLabel = new Label();
+    private Label projectNameLabel = new Label();
+    private Label projectShortNameLabel = new Label();
+    private Label projectDescriptionLabel = new Label();
 
     private Button editButton = new Button(EDIT_BUTTON);
     private Button deleteButton = new Button(DELETE_BUTTON);
 
-    static final Method EDIT_CLICK_LISTENER = ReflectTools.findMethod(ProjectLayout.class, EDIT_METHOD);
-    static final Method DELETE_CLICK_LISTENER = ReflectTools.findMethod(ProjectLayout.class, DELETE_METHOD);
+    static final Method EDIT_CLICK_LISTENER = ReflectTools.findMethod(ProjectLayout.class, "clickEdit");
+    static final Method DELETE_CLICK_LISTENER = ReflectTools.findMethod(ProjectLayout.class, "clickArchive");
+
+    static final Method PROJECT_EVENT_LISTENER =
+        ReflectTools.findMethod(ProjectLayout.class, "setProjectInfo", ProjectSelectedEvent.class);
+
+    private Project project = new Project();
+    private ProjectService service = new ProjectService();
 
     /**
      * Default constructor.
@@ -70,42 +66,51 @@ public class ProjectLayout extends VerticalLayout {
     }
 
     private void initLayouts() {
-        prjNameLabel.setValue(PRJ_NAME_LABEL);
-        prjNameLabel.setCaption(NAME_LABEL);
-        prjShortNameLabel.setValue(PRJ_SHORT_NAME_LABEL);
-        prjShortNameLabel.setCaption(SHORT_NAME_LABEL);
-        prjDescriptionLabel.setValue(PRJ_DESCRIPTION_LABEL);
-        prjDescriptionLabel.setCaption(DESCRIPTION_LABEL);
+        projectNameLabel.setCaption(NAME_LABEL);
+        projectShortNameLabel.setCaption(SHORT_NAME_LABEL);
+        projectDescriptionLabel.setCaption(DESCRIPTION_LABEL);
 
         HorizontalLayout buttonsLayout = LayoutFactory.createHorizontalLayout(true, true, editButton, deleteButton);
         buttonsLayout.setSizeUndefined();
 
-        addComponents(prjNameLabel, prjShortNameLabel, prjDescriptionLabel, buttonsLayout);
+        addComponents(projectNameLabel, projectShortNameLabel, projectDescriptionLabel, buttonsLayout);
         setComponentAlignment(buttonsLayout, Alignment.BOTTOM_RIGHT);
         setSpacing(true);
         setMargin(true);
         setSizeFull();
-        setExpandRatio(prjNameLabel, 1.0f);
-        setExpandRatio(prjShortNameLabel, 1.0f);
-        setExpandRatio(prjDescriptionLabel, 10.0f);
+        setExpandRatio(projectNameLabel, 1.0f);
+        setExpandRatio(projectShortNameLabel, 1.0f);
+        setExpandRatio(projectDescriptionLabel, 10.0f);
         setExpandRatio(buttonsLayout, 1.0f);
     }
 
     /**
      * Click event for editButton button.
      */
-    public void editClick() {
+    public void clickEdit() {
         ProjectWindow projectWindow =
-            new ProjectWindow(prjNameLabel.getValue(), prjShortNameLabel.getValue(), prjDescriptionLabel
-                .getValue());
+            new ProjectWindow();
+        projectWindow.setProjectData(project);
         UI.getCurrent().addWindow(projectWindow);
     }
 
     /**
      * Click event for archive button.
      */
-    public void deleteClick() {
-        ArchiveWindow archiveWindow = new ArchiveWindow();
+    public void clickArchive() {
+        ArchiveWindow archiveWindow = new ArchiveWindow(project.getId());
         UI.getCurrent().addWindow(archiveWindow);
+    }
+
+    /**
+     * Set data for labels of selected project
+     *
+     * @param event of selected project.
+     */
+    public void setProjectInfo(ProjectSelectedEvent event) {
+        project = service.getProject(event.getProjectId());
+        projectNameLabel.setValue(project.getName());
+        projectShortNameLabel.setValue(project.getShortName());
+        projectDescriptionLabel.setValue(project.getDescription());
     }
 }
