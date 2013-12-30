@@ -1,5 +1,9 @@
 package com.epam.issuetracker.ui.layout;
 
+import com.epam.issuetracker.domain.comment.Comment;
+import com.epam.issuetracker.domain.issue.Issue;
+import com.epam.issuetracker.service.impl.IssueService;
+import com.epam.issuetracker.ui.event.IssueSelectedEvent;
 import com.epam.issuetracker.ui.util.LayoutFactory;
 import com.epam.issuetracker.ui.window.CommentWindow;
 import com.vaadin.ui.Alignment;
@@ -22,133 +26,14 @@ import java.lang.reflect.Method;
 public class IssueLayout extends VerticalLayout {
 
     private static final String ISSUE_LABEL = "ISSUE: ";
-    private static final String ISSUE_KEY_LABEL = "prj-007";
-    private static final String ISSUE_SUMMARY_LABEL =
-        "Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue Issue";
-    private static final String ISSUE_DESCRIPTION_LABEl =
-        "Description Description Description Description Description Description Description" +
-            " Description Description Description Description Description Description Description" +
-            " Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description " +
-            " Description Description Description Description Description Description Description" +
-            " Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description " +
-            " Description Description Description Description Description Description Description" +
-            " Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description " +
-            "Description Description Description Description Description Description Description ";
-
     private static final String DETAILS_LABEL = "Details:";
-    private static final String TYPE_LABEL = "typeLabel:";
-    private static final String ISSUE_TYPE_LABEL = "bug";
-    private static final String PRIORITY_LABEL = "priorityLabel:";
-    private static final String ISSUE_PRIORITY_LABEL = "high";
-    private static final String SEVERITY_LABEL = "severityLabel:";
+    private static final String TYPE_LABEL = "type:";
+    private static final String PRIORITY_LABEL = "priority:";
+    private static final String SEVERITY_LABEL = "severity:";
     private static final String STATUS_LABEL = "statusLabel:";
-    private static final String ISSUE_STATUS_LABEL = "closed";
-    private static final String RESOLUTION_LABEL = "resolutionLabel:";
-    private static final String USER_LABEL = "User###";
+    private static final String RESOLUTION_LABEL = "resolution:";
     private static final String BUTTON_COMMENT = "Leave Comment";
-
     private static final String COMMENTS_LABEL = "Comments:";
-    private static final String COMMENT_LABEL =
-        "It's will be...I think...It's will be...I think...It's will be...I think...It's " +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think..." +
-            "will be...I think...It's will be...I think...It's will be...I think...It's will be..." +
-            "I think...It's will be...I think...It's will be...I think...";
 
     private VerticalLayout summaryLayout;
     private VerticalLayout detailsLayout;
@@ -156,19 +41,54 @@ public class IssueLayout extends VerticalLayout {
 
     private Button leaveCommentButton = new Button(BUTTON_COMMENT);
 
-    private static final String COMMENT_METHOD = "commentClick";
-    static final Method COMMENT_LISTENER = ReflectTools.findMethod(IssueLayout.class, COMMENT_METHOD);
+    static final Method COMMENT_LISTENER = ReflectTools.findMethod(IssueLayout.class, "onLeaveCommentClicked");
+
+    private Label issueKeyLabel = new Label();
+    private Label issueSummaryLabel = new Label();
+    private Label issueDescriptionLabel = new Label();
+    private Label detailsLabel = new Label();
+    private Label issueTypeLabel = new Label();
+    private Label issuePriorityLabel = new Label();
+    private Label issueSeverityLabel = new Label();
+    private Label issueStatusLabel = new Label();
+    private Label issueResolutionLabel = new Label();
+    private VerticalLayout userComment = new VerticalLayout();
+
+    private Issue issue = new Issue();
 
     public IssueLayout() {
         init();
     }
 
-    private void initSummary() {
-        Label issueKeyLabel = new Label(ISSUE_KEY_LABEL);
-        issueKeyLabel.setCaption(ISSUE_LABEL);
-        Label issueSummaryLabel = new Label(ISSUE_SUMMARY_LABEL);
-        Label issueDescriptionLabel = new Label(ISSUE_DESCRIPTION_LABEl);
+    /**
+     * Click event for leave comment.
+     */
+    public void onLeaveCommentClicked() {
+        CommentWindow commentWindow = new CommentWindow(issue.getId());
+        UI.getCurrent().addWindow(commentWindow);
+    }
 
+    /**
+     * Set data of issue to labels.
+     *
+     * @param event
+     */
+    void setIssueInfo(IssueSelectedEvent event) {
+        IssueService service = new IssueService();
+        issue = service.getIssue(event.getIssueId());
+        issueKeyLabel.setValue(issue.getKey());
+        issueSummaryLabel.setValue(issue.getSummary());
+        issueDescriptionLabel.setValue(issue.getDescription());
+        issueTypeLabel.setValue(issue.getType().toString());
+        issuePriorityLabel.setValue(issue.getPriority());
+        issueStatusLabel.setValue(issue.getStatus());
+        issueSeverityLabel.setValue(issue.getSeverity());
+        issueResolutionLabel.setValue(issue.getResolution());
+        setComment();
+    }
+
+    private void initSummary() {
+        issueKeyLabel.setCaption(ISSUE_LABEL);
         summaryLayout =
             LayoutFactory.createVerticalLayout(true, true, issueKeyLabel, issueSummaryLabel, issueDescriptionLabel);
         summaryLayout.setSizeFull();
@@ -176,19 +96,14 @@ public class IssueLayout extends VerticalLayout {
     }
 
     private void initDetails() {
-        Label detailsLabel = new Label();
         detailsLabel.setCaption(DETAILS_LABEL);
-        Label issueTypeLabel = new Label(ISSUE_TYPE_LABEL);
         issueTypeLabel.setCaption(TYPE_LABEL);
-        Label issuePriorityLabel = new Label(ISSUE_PRIORITY_LABEL);
         issuePriorityLabel.setCaption(PRIORITY_LABEL);
-        Label issueSeverityLabel = new Label(SEVERITY_LABEL);
         issueSeverityLabel.setCaption(SEVERITY_LABEL);
-        Label issueStatusLabel = new Label(ISSUE_STATUS_LABEL);
         issueStatusLabel.setCaption(STATUS_LABEL);
-        Label issueResolutionLabel = new Label(RESOLUTION_LABEL);
         issueResolutionLabel.setCaption(RESOLUTION_LABEL);
-        HorizontalLayout typeLayout = LayoutFactory.createHorizontalLayout(true, false, issueTypeLabel, issueStatusLabel);
+        HorizontalLayout typeLayout =
+            LayoutFactory.createHorizontalLayout(true, false, issueTypeLabel, issueStatusLabel);
         typeLayout.setSizeFull();
         HorizontalLayout statusLayout = LayoutFactory.createHorizontalLayout(true, false, issueSeverityLabel,
             issueResolutionLabel);
@@ -201,11 +116,10 @@ public class IssueLayout extends VerticalLayout {
     private void initComments() {
         Label commentsLabel = new Label();
         commentsLabel.setCaption(COMMENTS_LABEL);
-        Label userLabel = new Label(USER_LABEL);
-        Label commentLabel = new Label(COMMENT_LABEL);
-
         leaveCommentButton.addListener(Button.ClickEvent.class, this, COMMENT_LISTENER);
-        VerticalLayout userComment = LayoutFactory.createVerticalLayout(true, false, userLabel, commentLabel);
+
+        userComment.setMargin(false);
+        userComment.setSpacing(true);
 
         VerticalLayout allCommentsLayout =
             LayoutFactory.createVerticalLayout(true, false, userComment, leaveCommentButton);
@@ -232,11 +146,11 @@ public class IssueLayout extends VerticalLayout {
         addComponent(issueInfoLayout);
     }
 
-    /**
-     * Click event for leave comment.
-     */
-    public void commentClick() {
-        CommentWindow commentWindow = new CommentWindow();
-        UI.getCurrent().addWindow(commentWindow);
+    private void setComment() {
+        for (Comment comment : issue.getComments()) {
+            VerticalLayout commentLayout = new VerticalLayout();
+            commentLayout.addComponents(new Label(comment.getUser()), new Label(comment.getComment()));
+            userComment.addComponents(commentLayout);
+        }
     }
 }
