@@ -19,6 +19,7 @@ import org.junit.Test;
  */
 public class ProjectTest {
 
+    private static final String ID = "id";
     private static final String NAME = "Name";
     private static final String SHORT_NAME = "Short Name";
     private static final String DESCRIPTION = "Description";
@@ -32,6 +33,7 @@ public class ProjectTest {
 
     @Test
     public void testGetters() {
+        assertEquals(ID, project.getId());
         assertEquals(NAME, project.getName());
         assertEquals(SHORT_NAME, project.getShortName());
         assertEquals(DESCRIPTION, project.getDescription());
@@ -82,6 +84,7 @@ public class ProjectTest {
 
     private Project buildProject() {
         Project newProject = new Project();
+        newProject.setId(ID);
         newProject.setName(NAME);
         newProject.setShortName(SHORT_NAME);
         newProject.setDescription(DESCRIPTION);

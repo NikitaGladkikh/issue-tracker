@@ -14,14 +14,34 @@ import java.util.List;
  */
 public class Issue {
 
+    private String id;
     private String key;
     private String summary;
+    private String description;
     private TypeEnum type;
     private String status;
     private String priority;
     private String resolution;
     private String severity;
     private List<Comment> comments;
+
+    /**
+     * Getter for id of issue.
+     *
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Setter for id of issue.
+     *
+     * @param id set new id
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * Getter for key of issue.
@@ -150,6 +170,24 @@ public class Issue {
     }
 
     /**
+     * Getter for description of issue.
+     *
+     * @return description
+     */
+    public String getDescription() {
+        return description;
+    }
+
+    /**
+     * Setter for description of issue.
+     *
+     * @param description set new description
+     */
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    /**
      * Getter for comments list of issue.
      *
      * @return comments
@@ -176,6 +214,7 @@ public class Issue {
             return false;
         }
         Issue that = (Issue) object;
+
         if (null != comments ? !comments.equals(that.comments) : null != that.comments) {
             return false;
         }
@@ -200,6 +239,12 @@ public class Issue {
         if (null != type ? !type.equals(that.type) : null != that.type) {
             return false;
         }
+        if (null != description ? !description.equals(that.description) : null != that.description) {
+            return false;
+        }
+        if (null != id ? !id.equals(that.id) : null != that.id) {
+            return false;
+        }
         return true;
     }
 
@@ -212,7 +257,9 @@ public class Issue {
         result = 31 * result + (null == severity ? 0 : severity.hashCode());
         result = 31 * result + (null == status ? 0 : status.hashCode());
         result = 31 * result + (null == summary ? 0 : summary.hashCode());
-        return 31 * result + (null == type ? 0 : type.hashCode());
+        result = 31 * result + (null == type ? 0 : type.hashCode());
+        result = 31 * result + (null == description ? 0 : description.hashCode());
+        return 31 * result + (null == id ? 0 : id.hashCode());
     }
 
     @Override

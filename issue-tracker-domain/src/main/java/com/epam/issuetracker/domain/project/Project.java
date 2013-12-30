@@ -9,9 +9,28 @@ package com.epam.issuetracker.domain.project;
  */
 public class Project {
 
+    private String id;
     private String name;
     private String shortName;
     private String description;
+
+    /**
+     * Getter for id.
+     *
+     * @return id of project
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Setter for id.
+     *
+     * @param id set new id for project.
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * Getter for name.
@@ -76,6 +95,9 @@ public class Project {
             return false;
         }
         Project that = (Project) object;
+        if (null != id ? !id.equals(that.id) : null != that.id) {
+            return false;
+        }
         if (null != name ? !name.equals(that.name) : null != that.name) {
             return false;
         }
@@ -90,7 +112,8 @@ public class Project {
 
     @Override
     public int hashCode() {
-        int result = 37 + (null == name ? 0 : name.hashCode());
+        int result = 37 + (null == id ? 0 : id.hashCode());
+        result = 31 * result + (null == name ? 0 : name.hashCode());
         result = 31 * result + (null == shortName ? 0 : shortName.hashCode());
         return 31 * result + (null == description ? 0 : description.hashCode());
     }

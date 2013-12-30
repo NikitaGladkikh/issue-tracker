@@ -17,6 +17,7 @@ import java.util.Objects;
  */
 @RunWith(Parameterized.class)
 public class CommentTestEqualsHashCode {
+    private static final String ID = "id";
     private static final String USER = "user";
     private static final String COMMENT = "comment";
 
@@ -32,15 +33,15 @@ public class CommentTestEqualsHashCode {
 
     @Parameterized.Parameters
     public static Collection<Object[]> stepUpCommentValues() {
-        Comment comment = buildComment(USER, USER);
+        Comment comment = buildComment(ID, USER, USER);
         return Arrays.asList(new Object[][]{
             {comment, comment, true},
-            {buildComment(USER, COMMENT), new Object(), false},
-            {buildComment(USER, COMMENT), null, false},
+            {buildComment(ID, USER, COMMENT), new Object(), false},
+            {buildComment(ID, USER, COMMENT), null, false},
             {new Comment(), new Comment(), true},
-            {buildComment(USER, COMMENT), buildComment(USER, COMMENT), true},
-            {buildComment(USER, null), buildComment(USER, COMMENT), false},
-            {buildComment(USER, COMMENT), buildComment(COMMENT, USER), false},
+            {buildComment(ID, USER, COMMENT), buildComment(ID, USER, COMMENT), true},
+            {buildComment(ID, USER, null), buildComment(ID, USER, COMMENT), false},
+            {buildComment(ID, USER, COMMENT), buildComment(USER, COMMENT, ID), false},
         });
     }
 
@@ -54,8 +55,9 @@ public class CommentTestEqualsHashCode {
         assertEquals(expected, Objects.hashCode(comment1) == Objects.hashCode(comment2));
     }
 
-        static Comment buildComment(String user, String comment) {
+    static Comment buildComment(String id, String user, String comment) {
         Comment newComment = new Comment();
+        newComment.setId(id);
         newComment.setUser(user);
         newComment.setComment(comment);
         return newComment;

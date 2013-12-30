@@ -14,6 +14,7 @@ import org.junit.Test;
  */
 public class CommentTestGetterToString {
 
+    private static final String ID = "id";
     private static final String USER = "user";
     private static final String COMMENT = "comment";
 
@@ -21,11 +22,12 @@ public class CommentTestGetterToString {
 
     @Before
     public void setUpComment() {
-        comment1 = CommentTestEqualsHashCode.buildComment(USER, COMMENT);
+        comment1 = CommentTestEqualsHashCode.buildComment(ID, USER, COMMENT);
     }
 
     @Test
     public void testGetters() {
+        assertEquals(ID, comment1.getId());
         assertEquals(USER, comment1.getUser());
         assertEquals(COMMENT, comment1.getComment());
     }

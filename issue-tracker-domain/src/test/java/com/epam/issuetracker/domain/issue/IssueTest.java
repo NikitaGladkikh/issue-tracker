@@ -13,7 +13,7 @@ import com.epam.issuetracker.domain.enums.TypeEnum;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +25,7 @@ import java.util.List;
  */
 public class IssueTest {
 
+    private static final String ID = "id";
     private static final String KEY = "key";
     private static final String SUMMARY = "summary";
     private static final String STATUS = "status";
@@ -40,7 +41,7 @@ public class IssueTest {
     @Before
     public void initData() {
         issue = buildIssue();
-        commentList = new LinkedList<Comment>();
+        commentList = new ArrayList<Comment>();
         commentList.add(buildComment());
         commentList.add(buildComment());
         issue.setComments(commentList);
@@ -48,6 +49,7 @@ public class IssueTest {
 
     @Test
     public void testGetters() {
+        assertEquals(ID, issue.getId());
         assertEquals(KEY, issue.getKey());
         assertEquals(SUMMARY, issue.getSummary());
         assertEquals(TypeEnum.BUG, issue.getType());
@@ -110,6 +112,7 @@ public class IssueTest {
 
     private Issue buildIssue() {
         Issue newIssue = new Issue();
+        newIssue.setId(ID);
         newIssue.setKey(KEY);
         newIssue.setSummary(SUMMARY);
         newIssue.setType(TypeEnum.BUG);

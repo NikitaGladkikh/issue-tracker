@@ -9,8 +9,27 @@ package com.epam.issuetracker.domain.comment;
  */
 public class Comment {
 
+    private String id;
     private String user;
     private String comment;
+
+    /**
+     * Getter for id of comment.
+     *
+     * @return id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Setter for id of comment.
+     *
+     * @param id set new user
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * Getter for user of comment.
@@ -57,6 +76,9 @@ public class Comment {
             return false;
         }
         Comment that = (Comment) object;
+        if (null != id ? !id.equals(that.id) : null != that.id) {
+            return false;
+        }
         if (null != user ? !user.equals(that.user) : null != that.user) {
             return false;
         }
@@ -68,7 +90,8 @@ public class Comment {
 
     @Override
     public int hashCode() {
-        int result = 37 + (null == user ? 0 : user.hashCode());
+        int result = 37 + (null == id ? 0 : id.hashCode());
+        result = 37 + (null == user ? 0 : user.hashCode());
         return 31 * result + (null == comment ? 0 : comment.hashCode());
     }
 
