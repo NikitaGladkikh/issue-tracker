@@ -1,5 +1,7 @@
 package com.epam.issuetracker.ui.window;
 
+import com.epam.issuetracker.domain.project.Project;
+import com.epam.issuetracker.service.impl.ProjectService;
 import com.epam.issuetracker.ui.util.LayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -32,9 +34,8 @@ public class ProjectWindow extends Window {
     private static final String SAVE_BUTTON = "Save";
     private static final String PROJECT_LABEL = "Project";
 
-    private static final String CANCEL_METHOD = "cancelClick";
-
-    static final Method ADD_CANCEL_LISTENER = ReflectTools.findMethod(ProjectWindow.class, CANCEL_METHOD);
+    static final Method CANCEL_LISTENER = ReflectTools.findMethod(ProjectWindow.class, "onCancelClicked");
+    static final Method ADD_LISTENER = ReflectTools.findMethod(ProjectWindow.class, "onSaveClicked");
 
     private TextField nameTextField = new TextField(NAME_LABEL);
     private TextField shortNameTextField = new TextField(SHORT_NAME_LABEL);
@@ -45,6 +46,9 @@ public class ProjectWindow extends Window {
 
     private HorizontalLayout buttonsLayout;
     private VerticalLayout windowLayout;
+
+    private ProjectService service = new ProjectService();
+    private Project project = new Project();
 
     /**
      * Default constructor.
@@ -59,8 +63,39 @@ public class ProjectWindow extends Window {
         setContent(windowLayout);
     }
 
+    /**
+     * Set project data into window fields.
+     *
+     * @param project
+     */
+    public void setProjectData(Project project) {
+        this.project = project;
+        nameTextField.setValue(project.getName());
+        shortNameTextField.setValue(project.getShortName());
+        descriptionTextArea.setValue(project.getDescription());
+    }
+
+    /**
+     * Cancel event for cancel button.
+     */
+    public void onCancelClicked() {
+        close();
+    }
+
+    /**
+     * Save project.
+     */
+    public void onSaveClicked() {
+        project.setName(nameTextField.getValue());
+        project.setShortName(shortNameTextField.getValue());
+        project.setDescription(descriptionTextArea.getValue());
+        service.updateProject(project);
+        close();
+    }
+
     private void initButtons() {
-        cancelButton.addListener(Button.ClickEvent.class, this, ADD_CANCEL_LISTENER);
+        cancelButton.addListener(Button.ClickEvent.class, this, CANCEL_LISTENER);
+        saveButton.addListener(Button.ClickEvent.class, this, ADD_LISTENER);
         saveButton.setWidth(BUTTON_WIDTH);
         cancelButton.setWidth(BUTTON_WIDTH);
         buttonsLayout = LayoutFactory.createHorizontalLayout(true, true, saveButton, cancelButton);
@@ -73,31 +108,8 @@ public class ProjectWindow extends Window {
         nameTextField.setWidth(FIELD_WIDTH);
         shortNameTextField.setWidth(FIELD_WIDTH);
         descriptionTextArea.setWidth(FIELD_WIDTH);
-
         VerticalLayout fieldsLayout =
             LayoutFactory.createVerticalLayout(true, true, nameTextField, shortNameTextField, descriptionTextArea);
         windowLayout = LayoutFactory.createVerticalLayout(false, false, fieldsLayout, buttonsLayout);
-    }
-
-    /**
-     * Constructs new window based on name, short name and description.
-     *
-     * @param name        of the project
-     * @param shortName   of the project
-     * @param description of the project
-     */
-    // TODO: Replace arguments with domain object
-    public ProjectWindow(String name, String shortName, String description) {
-        this();
-        this.nameTextField.setValue(name);
-        this.shortNameTextField.setValue(shortName);
-        this.descriptionTextArea.setValue(description);
-    }
-
-    /**
-     * Cancel event for cancel button.
-     */
-    public void cancelClick() {
-        close();
     }
 }

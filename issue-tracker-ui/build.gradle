@@ -17,6 +17,9 @@ repositories {
 
 dependencies {
 
+    compile project(':issue-tracker-domain')
+    compile project(':issue-tracker-service')
+
     compile("com.vaadin:vaadin-server:${vaadinVersion}")
     compile("com.vaadin:vaadin-shared:${vaadinVersion}")
     compile("com.vaadin:vaadin-themes:${vaadinVersion}")

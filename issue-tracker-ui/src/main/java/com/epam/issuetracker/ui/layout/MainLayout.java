@@ -1,6 +1,8 @@
 package com.epam.issuetracker.ui.layout;
 
+import com.epam.issuetracker.ui.event.ProjectSelectedEvent;
 import com.vaadin.ui.HorizontalSplitPanel;
+import com.vaadin.ui.TabSheet;
 import com.vaadin.ui.VerticalLayout;
 
 
@@ -14,6 +16,8 @@ import com.vaadin.ui.VerticalLayout;
 public class MainLayout extends VerticalLayout {
 
     private HorizontalSplitPanel horizontalSplitPanel = new HorizontalSplitPanel();
+    private static final String PROJECT_CAPTION = "Project";
+    private static final String ISSUES_CAPTION = "Issues";
 
     /**
      * Default constructor.
@@ -25,10 +29,24 @@ public class MainLayout extends VerticalLayout {
     }
 
     private void init() {
+        ProjectLayout projectLayout = new ProjectLayout();
+        AllIssuesLayout allIssuesLayout = new AllIssuesLayout();
+        TabSheet tabSheet = initTabs(projectLayout, allIssuesLayout);
         horizontalSplitPanel.setSplitPosition(20, Unit.PERCENTAGE);
         horizontalSplitPanel.setSizeFull();
         horizontalSplitPanel.setLocked(true);
-        horizontalSplitPanel.setFirstComponent(new ProjectsLayout());
-        horizontalSplitPanel.setSecondComponent(new TabsLayout());
+        ProjectsLayout projectsLayout = new ProjectsLayout();
+        projectsLayout.addListener(ProjectSelectedEvent.class, projectLayout, ProjectLayout.PROJECT_EVENT_LISTENER);
+        projectsLayout.addListener(ProjectSelectedEvent.class, allIssuesLayout, AllIssuesLayout.REFRESH_TABLE_LISTENER);
+        horizontalSplitPanel.setFirstComponent(projectsLayout);
+        horizontalSplitPanel.setSecondComponent(tabSheet);
+    }
+
+    private TabSheet initTabs(VerticalLayout projectLayuot, VerticalLayout allIssuesLayout) {
+        TabSheet tabs = new TabSheet();
+        tabs.addTab(projectLayuot, PROJECT_CAPTION);
+        tabs.addTab(allIssuesLayout, ISSUES_CAPTION);
+        tabs.setSizeFull();
+        return tabs;
     }
 }

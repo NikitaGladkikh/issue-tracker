@@ -23,7 +23,7 @@ public class ProjectsLayout extends VerticalLayout {
     private static final String BUTTON_WIDTH = "100%";
     private static final String BUTTON_ADD = "Add Project";
 
-    static final Method ADD_CLICK = ReflectTools.findMethod(ProjectsLayout.class, "clickAdd");
+    static final Method ADD_CLICK = ReflectTools.findMethod(ProjectsLayout.class, "onAddProjectClicked");
     static final Method PROJECT_CLICK = ReflectTools.findMethod(ProjectsLayout.class, "selectProject",
         Property.ValueChangeEvent.class);
 
@@ -35,21 +35,10 @@ public class ProjectsLayout extends VerticalLayout {
         init();
     }
 
-    private void init() {
-        ProjectsTable projectsTable = new ProjectsTable();
-        Button addProjectButton = new Button(BUTTON_ADD);
-        addProjectButton.setWidth(BUTTON_WIDTH);
-        addProjectButton.addListener(Button.ClickEvent.class, this, ADD_CLICK);
-        projectsTable.addListener(Property.ValueChangeEvent.class, this, PROJECT_CLICK);
-        addComponents(addProjectButton, projectsTable);
-        setSizeFull();
-        setExpandRatio(projectsTable, 1.0f);
-    }
-
     /**
      * Click event for add project button.
      */
-    public void clickAdd() {
+    public void onAddProjectClicked() {
         ProjectWindow projectWindow = new ProjectWindow();
         UI.getCurrent().addWindow(projectWindow);
     }
@@ -65,5 +54,16 @@ public class ProjectsLayout extends VerticalLayout {
         } else {
             fireEvent(new ProjectSelectedEvent(this, null));
         }
+    }
+
+    private void init() {
+        ProjectsTable projectsTable = new ProjectsTable();
+        Button addProjectButton = new Button(BUTTON_ADD);
+        addProjectButton.setWidth(BUTTON_WIDTH);
+        addProjectButton.addListener(Button.ClickEvent.class, this, ADD_CLICK);
+        projectsTable.addListener(Property.ValueChangeEvent.class, this, PROJECT_CLICK);
+        addComponents(addProjectButton, projectsTable);
+        setSizeFull();
+        setExpandRatio(projectsTable, 1.0f);
     }
 }
