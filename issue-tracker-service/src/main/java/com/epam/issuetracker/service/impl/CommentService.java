@@ -5,6 +5,7 @@ import com.epam.issuetracker.repository.impl.CommentRepository;
 import com.epam.issuetracker.service.api.ICommentService;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Implementation of comment service interface.
@@ -23,6 +24,7 @@ public class CommentService implements ICommentService {
 
     @Override
     public void addComment(Comment comment, String idIssue) {
+        comment.setId(UUID.randomUUID().toString());
         repository.insertComment(comment, idIssue);
     }
 
