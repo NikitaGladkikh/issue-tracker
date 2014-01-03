@@ -54,7 +54,7 @@ public class IssueLayout extends VerticalLayout {
     private Label issueResolutionLabel = new Label();
     private VerticalLayout userComment = new VerticalLayout();
 
-    private Issue issue = new Issue();
+    private Issue issue;
 
     public IssueLayout() {
         init();

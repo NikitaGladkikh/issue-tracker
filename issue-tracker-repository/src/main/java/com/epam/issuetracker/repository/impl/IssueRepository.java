@@ -23,7 +23,7 @@ public class IssueRepository implements IIssueRepository {
     private static final String RESOLUTION = "Resolution ";
     private static final String SEVERITY = "Severity ";
     private List<Issue> issues = buildIssues();
-
+    private CommentRepository repository = new CommentRepository();
 
     @Override
     public List<Issue> findAllIssues(String projectId) {
@@ -44,6 +44,7 @@ public class IssueRepository implements IIssueRepository {
         issue.setPriority(PRIORITY);
         issue.setResolution(RESOLUTION);
         issue.setSeverity(SEVERITY);
+        issue.setComments(repository.findComments(issueId));
         return issue;
     }
 
@@ -117,9 +118,5 @@ public class IssueRepository implements IIssueRepository {
             tempIssue.add(issue);
         }
         return tempIssue;
-    }
-
-    public IssueRepository getRepository() {
-        return this;
     }
 }
