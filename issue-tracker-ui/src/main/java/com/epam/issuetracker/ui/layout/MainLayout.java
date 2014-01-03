@@ -37,7 +37,7 @@ public class MainLayout extends VerticalLayout {
         horizontalSplitPanel.setLocked(true);
         ProjectsLayout projectsLayout = new ProjectsLayout();
         projectsLayout.addListener(ProjectSelectedEvent.class, projectLayout, ProjectLayout.PROJECT_EVENT_LISTENER);
-        projectsLayout.addListener(ProjectSelectedEvent.class, allIssuesLayout, AllIssuesLayout.REFRESH_TABLE_LISTENER);
+        projectsLayout.addListener(ProjectSelectedEvent.class, allIssuesLayout, AllIssuesLayout.REFRESH_ISSUES_LISTENER);
         horizontalSplitPanel.setFirstComponent(projectsLayout);
         horizontalSplitPanel.setSecondComponent(tabSheet);
     }

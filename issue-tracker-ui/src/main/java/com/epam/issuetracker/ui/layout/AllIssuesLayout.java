@@ -35,7 +35,7 @@ public class AllIssuesLayout extends VerticalLayout {
     static final Method ADD_ISSUE_LISTENER = ReflectTools.findMethod(AllIssuesLayout.class, "onAddIssueClicked");
     static final Method EDIT_ISSUE_LISTENER = ReflectTools.findMethod(AllIssuesLayout.class, "onEditIssueClicked");
     static final Method SAVE_ISSUE_LISTENER = ReflectTools.findMethod(AllIssuesLayout.class, "onSaveIssueClicked");
-    static final Method REFRESH_TABLE_LISTENER = ReflectTools.findMethod(AllIssuesLayout.class, "refreshContainer",
+    static final Method REFRESH_ISSUES_LISTENER = ReflectTools.findMethod(AllIssuesLayout.class, "refreshIssues",
         ProjectSelectedEvent.class);
 
     private IssueLayout issueLayout = new IssueLayout();
@@ -55,8 +55,16 @@ public class AllIssuesLayout extends VerticalLayout {
     private IssueSelectedEvent issueSelectedEvent;
     private IssuesTable issuesTable = new IssuesTable();
 
-    public void refreshContainer(ProjectSelectedEvent event) {
+    private String projectId;
+
+    public void refreshIssues(ProjectSelectedEvent event) {
         issuesTable.refresh(event);
+        if (null == event.getProjectId()) {
+            addIssueButton.setEnabled(false);
+        } else {
+            addIssueButton.setEnabled(true);
+            projectId = event.getProjectId();
+        }
     }
 
     /**
@@ -94,6 +102,7 @@ public class AllIssuesLayout extends VerticalLayout {
         issueHeadLayout.setVisible(false);
         editLayout.setVisible(true);
         editIssueLayout.setEditIssueInfo(issueSelectedEvent);
+        editIssueLayout.setProjectId(null);
     }
 
     /**
@@ -113,6 +122,7 @@ public class AllIssuesLayout extends VerticalLayout {
         issueHeadLayout.setVisible(false);
         editLayout.setVisible(true);
         editIssueLayout.clearIssue();
+        editIssueLayout.setProjectId(projectId);
     }
 
     /**
@@ -160,6 +170,7 @@ public class AllIssuesLayout extends VerticalLayout {
     }
 
     private void initButtons() {
+        addIssueButton.setEnabled(false);
         viewIssueButton.setEnabled(false);
         editIssueButton.setEnabled(false);
 

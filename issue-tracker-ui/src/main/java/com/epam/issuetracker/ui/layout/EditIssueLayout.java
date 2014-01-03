@@ -50,6 +50,8 @@ public class EditIssueLayout extends VerticalLayout {
     private ComboBox statusComboBox = new ComboBox(STATUS_CAPTION, service.getStatuses());
     private ComboBox resolutionComboBox = new ComboBox(RESOLUTION_CAPTION, service.getResolutions());
 
+    private String projectId;
+
     /**
      * Default constructor.
      */
@@ -90,7 +92,7 @@ public class EditIssueLayout extends VerticalLayout {
         issue.setStatus(statusComboBox.getValue().toString());
         issue.setPriority(priorityComboBox.getValue().toString());
         issue.setResolution(resolutionComboBox.getValue().toString());
-        service.updateIssue(issue);
+        service.updateIssue(issue, projectId);
     }
 
     /**
@@ -100,6 +102,15 @@ public class EditIssueLayout extends VerticalLayout {
         issue = new Issue();
         summaryTextField.setValue("");
         descriptionTextArea.setValue("");
+    }
+
+    /**
+     * Set project id.
+     *
+     * @param projectId id of project.
+     */
+    void setProjectId(String projectId) {
+        this.projectId = projectId;
     }
 
     private void initSummary() {

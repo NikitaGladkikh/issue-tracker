@@ -29,11 +29,11 @@ public interface IIssueService {
     Issue getIssue(String id);
 
     /**
-     * Add issue to project.
-     *
-     * @param issue
+     * Add/update issue to project.
+     * @param issue new or changed impl.
+     * @param projectId id of project.
      */
-    void updateIssue(Issue issue);
+    void updateIssue(Issue issue, String projectId);
 
     /**
      * Get list of statuses for issue.

@@ -3,5 +3,8 @@ repositories {
 }
 
 dependencies {
-    compile project(':issue-tracker-domain')
+    compile project(':issue-tracker-repository')
+
+    testCompile "junit:junit:${jUnitVersion}"
+    testCompile "org.easymock:easymock:${easyMockVersion}"
 }
