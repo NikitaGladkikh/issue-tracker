@@ -1,0 +1,44 @@
+apply plugin: 'liquibase'
+
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("com.augusttechgroup:gradle-liquibase-plugin:${liquibasePluginVersion}")
+        classpath("postgresql:postgresql:${postgreSQLVersion}")
+    }
+}
+
+liquibase {
+    databases {
+        postgre {
+            url = "${postgreBaseUrl}" + "/" + "${postgreDB}"
+            username = "${postgreRootUserName}"
+            password = "${postgreRootUserPassword}"
+        }
+    }
+    changelogs {
+        main {
+            file = file('src/main/liquibase/com/epam/issuetracker/db/mainChangeLog.groovy')
+        }
+    }
+    defaultDatabase = databases.postgre
+}
+
+task initDB << {
+    liquibase {
+        databases {
+            postgre {
+                url = "${postgreBaseUrl}"
+            }
+        }
+        changelogs {
+            main {
+                file = file('src/main/liquibase/com/epam/issuetracker/db/dataBaseInit.groovy')
+            }
+        }
+    }
+}
+
+task init(dependsOn: ['initDB', 'update']) << {}
