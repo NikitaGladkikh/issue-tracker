@@ -27,4 +27,8 @@ databaseChangeLog {
     include(file: 'issuesInit.groovy', relativeToChangelogFile: true)
     //insert issues data
     include(file: 'issuesInsert.groovy', relativeToChangelogFile: true)
+    //insert comments table
+    include(file: 'commentsInit.groovy', relativeToChangelogFile: true)
+    //insert comments data
+    include(file: 'commentsInsert.groovy', relativeToChangelogFile: true)
 }
