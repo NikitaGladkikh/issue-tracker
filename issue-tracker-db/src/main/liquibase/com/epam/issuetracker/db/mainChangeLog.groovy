@@ -1,5 +1,5 @@
 databaseChangeLog {
-    property(file:'dataBase.properties')
+    property(file: 'gradle.properties')
     //create table projects
     include(file: 'projectsInit.groovy', relativeToChangelogFile: true)
     //create table status
