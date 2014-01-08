@@ -1,4 +1,5 @@
 databaseChangeLog {
+    property(file:'dataBase.properties')
     //create table projects
     include(file: 'projectsInit.groovy', relativeToChangelogFile: true)
     //create table status
@@ -21,14 +22,8 @@ databaseChangeLog {
     include(file: 'severetiesInsert.groovy', relativeToChangelogFile: true)
     //insert resolution data
     include(file: 'resolutionsInsert.groovy', relativeToChangelogFile: true)
-    //insert project data
-    include(file: 'projectInsert.groovy', relativeToChangelogFile: true)
     //insert issues table
     include(file: 'issuesInit.groovy', relativeToChangelogFile: true)
-    //insert issues data
-    include(file: 'issuesInsert.groovy', relativeToChangelogFile: true)
     //insert comments table
     include(file: 'commentsInit.groovy', relativeToChangelogFile: true)
-    //insert comments data
-    include(file: 'commentsInsert.groovy', relativeToChangelogFile: true)
 }

@@ -1,8 +1,8 @@
 databaseChangeLog {
-    changeSet(id: '2014-01-04-07', author: 'Mikita Hladkikh <mikita_hladkikh@epam.com>') {
+    changeSet(id: '2014-01-04-00', author: 'Mikita Hladkikh <mikita_hladkikh@epam.com>') {
         comment("Creates 'issues' table")
 
-        createTable(tableName: 'issues', schemaName: 'public', tablespace: 'works_data',
+        createTable(tableName: 'issues', schemaName: issueTrackerShema, tablespace: tableSpaceData,
                 remarks: 'Reference table for storing issues which will be used in the application') {
 
             column(name: 'issue_uid', type: 'VARCHAR(255)', remarks: 'The id of the issue') {
@@ -41,26 +41,26 @@ databaseChangeLog {
 
         }
 
-        addPrimaryKey(schemaName: 'public', tableName: 'issues', tablespace: 'works_index',
+        addPrimaryKey(schemaName: issueTrackerShema, tableName: 'issues', tablespace: tableSpaceIndex,
                 columnNames: 'issue_uid', constraintName: 'PK_issue_uid')
         addForeignKeyConstraint(constraintName: 'FK_project_uid',
-                baseTableSchemaName: 'public', baseTableName: 'issues', baseColumnNames: 'project_uid',
-                referencedTableSchemaName: 'public', referencedTableName: 'projects', referencedColumnNames: 'project_uid')
+                baseTableSchemaName: issueTrackerShema, baseTableName: 'issues', baseColumnNames: 'project_uid',
+                referencedTableSchemaName: issueTrackerShema, referencedTableName: 'projects', referencedColumnNames: 'project_uid')
         addForeignKeyConstraint(constraintName: 'FK_type_uid',
-                baseTableSchemaName: 'public', baseTableName: 'issues', baseColumnNames: 'type_uid',
-                referencedTableSchemaName: 'public', referencedTableName: 'type', referencedColumnNames: 'type_uid')
+                baseTableSchemaName: issueTrackerShema, baseTableName: 'issues', baseColumnNames: 'type_uid',
+                referencedTableSchemaName: issueTrackerShema, referencedTableName: 'type', referencedColumnNames: 'type_uid')
         addForeignKeyConstraint(constraintName: 'FK_status_uid',
-                baseTableSchemaName: 'public', baseTableName: 'issues', baseColumnNames: 'status_uid',
-                referencedTableSchemaName: 'public', referencedTableName: 'status', referencedColumnNames: 'status_uid')
+                baseTableSchemaName: issueTrackerShema, baseTableName: 'issues', baseColumnNames: 'status_uid',
+                referencedTableSchemaName: issueTrackerShema, referencedTableName: 'status', referencedColumnNames: 'status_uid')
         addForeignKeyConstraint(constraintName: 'FK_priority_uid',
-                baseTableSchemaName: 'public', baseTableName: 'issues', baseColumnNames: 'priority_uid',
-                referencedTableSchemaName: 'public', referencedTableName: 'priority', referencedColumnNames: 'priority_uid')
+                baseTableSchemaName: issueTrackerShema, baseTableName: 'issues', baseColumnNames: 'priority_uid',
+                referencedTableSchemaName: issueTrackerShema, referencedTableName: 'priority', referencedColumnNames: 'priority_uid')
         addForeignKeyConstraint(constraintName: 'FK_severity_uid',
-                baseTableSchemaName: 'public', baseTableName: 'issues', baseColumnNames: 'severity_uid',
-                referencedTableSchemaName: 'public', referencedTableName: 'severity', referencedColumnNames: 'severity_uid')
+                baseTableSchemaName: issueTrackerShema, baseTableName: 'issues', baseColumnNames: 'severity_uid',
+                referencedTableSchemaName: issueTrackerShema, referencedTableName: 'severity', referencedColumnNames: 'severity_uid')
         addForeignKeyConstraint(constraintName: 'FK_resolution_uid',
-                baseTableSchemaName: 'public', baseTableName: 'issues', baseColumnNames: 'resolution_uid',
-                referencedTableSchemaName: 'public', referencedTableName: 'resolution', referencedColumnNames: 'resolution_uid')
+                baseTableSchemaName: issueTrackerShema, baseTableName: 'issues', baseColumnNames: 'resolution_uid',
+                referencedTableSchemaName: issueTrackerShema, referencedTableName: 'resolution', referencedColumnNames: 'resolution_uid')
 
         rollback {
             //automatic rollback

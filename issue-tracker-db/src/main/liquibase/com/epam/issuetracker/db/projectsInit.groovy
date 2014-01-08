@@ -2,7 +2,7 @@ databaseChangeLog {
     changeSet(id: '2014-01-04-00', author: 'Mikita Hladkikh <mikita_hladkikh@epam.com>') {
         comment("Creates 'projects' table")
 
-        createTable(tableName: 'projects', schemaName: 'public', tablespace: 'works_data',
+        createTable(tableName: 'projects', schemaName: issueTrackerShema, tablespace: tableSpaceData,
                 remarks: 'Reference table for storing projects which will be used in the application') {
 
             column(name: 'project_uid', type: 'VARCHAR(255)', remarks: 'The id of the project') {
@@ -25,7 +25,7 @@ databaseChangeLog {
             }
         }
 
-        addPrimaryKey(schemaName: 'public', tableName: 'projects', tablespace: 'works_index',
+        addPrimaryKey(schemaName: issueTrackerShema, tableName: 'projects', tablespace: tableSpaceIndex,
                 columnNames: 'project_uid', constraintName: 'PK_project_uid')
 
         rollback {

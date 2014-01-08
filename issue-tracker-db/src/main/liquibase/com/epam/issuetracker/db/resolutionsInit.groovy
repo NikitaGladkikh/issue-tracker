@@ -1,8 +1,8 @@
 databaseChangeLog {
-    changeSet(id: '2014-01-04-05', author: 'Mikita Hladkikh <mikita_hladkikh@epam.com>') {
+    changeSet(id: '2014-01-04-00', author: 'Mikita Hladkikh <mikita_hladkikh@epam.com>') {
         comment("Creates 'resolution' table")
 
-        createTable(tableName: 'resolution', schemaName: 'public', tablespace: 'works_data',
+        createTable(tableName: 'resolution', schemaName: issueTrackerShema, tablespace: tableSpaceData,
                 remarks: 'Reference table for storing resolution which will be used in the application') {
 
             column(name: 'resolution_uid', type: 'VARCHAR(3)', remarks: 'The id of the resolution') {
@@ -13,7 +13,7 @@ databaseChangeLog {
             }
         }
 
-        addPrimaryKey(schemaName: 'public', tableName: 'resolution', tablespace: 'works_index',
+        addPrimaryKey(schemaName: issueTrackerShema, tableName: 'resolution', tablespace: tableSpaceIndex,
                 columnNames: 'resolution_uid', constraintName: 'PK_resolution_uid')
 
         rollback {
