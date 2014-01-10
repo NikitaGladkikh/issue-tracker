@@ -1,6 +1,7 @@
 package com.epam.issuetracker.ui.window;
 
 import com.epam.issuetracker.service.impl.ProjectService;
+import com.epam.issuetracker.ui.event.ProjectRefreshEvent;
 import com.epam.issuetracker.ui.util.LayoutFactory;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
@@ -28,8 +29,8 @@ public class ArchiveWindow extends Window {
     private static final String NO_BUTTON = "No";
     private static final String YES_BUTTON = "Yes";
 
-    static final Method CANCEL_LISTENER = ReflectTools.findMethod(ArchiveWindow.class, "clickCancel");
-    static final Method ARCHIVE_LISTENER = ReflectTools.findMethod(ArchiveWindow.class, "clickArchive");
+    static final Method CANCEL_LISTENER = ReflectTools.findMethod(ArchiveWindow.class, "onCancelClicked");
+    static final Method ARCHIVE_LISTENER = ReflectTools.findMethod(ArchiveWindow.class, "onArchiveClicked");
 
     private Label questionLabel = new Label(QUESTION_LABEL);
 
@@ -41,15 +42,34 @@ public class ArchiveWindow extends Window {
     private ProjectService service = new ProjectService();
     private String projectId;
 
-    public ArchiveWindow(String projectId) {
+    public ArchiveWindow() {
         super(CONFIRM_LABEL);
-        this.projectId = projectId;
         center();
         setResizable(false);
         initButtons();
         initLayout();
         setModal(true);
         setContent(windowLayout);
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId;
+    }
+
+    /**
+     * Cancel event for no button.
+     */
+    public void onCancelClicked() {
+        close();
+    }
+
+    /**
+     * Archive event for yes button.
+     */
+    public void onArchiveClicked() {
+        service.archiveProject(projectId);
+        fireEvent(new ProjectRefreshEvent(this));
+        close();
     }
 
     private void initButtons() {
@@ -66,20 +86,5 @@ public class ArchiveWindow extends Window {
     private void initLayout() {
         VerticalLayout fieldsLayout = LayoutFactory.createVerticalLayout(true, true, questionLabel);
         windowLayout = LayoutFactory.createVerticalLayout(false, false, fieldsLayout, buttonsLayout);
-    }
-
-    /**
-     * Cancel event for no button.
-     */
-    public void clickCancel() {
-        close();
-    }
-
-    /**
-     * Archive event for yes button.
-     */
-    public void clickArchive() {
-        service.archiveProject(projectId);
-        close();
     }
 }

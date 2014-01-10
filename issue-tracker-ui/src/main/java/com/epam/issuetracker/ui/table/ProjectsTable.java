@@ -29,10 +29,17 @@ public class ProjectsTable extends Table {
         setContainerDataSource(container);
         setColumnHeader(ID_NAME_COLUMN, ALL_PROJECTS_HEADER);
         setVisibleColumns(ID_NAME_COLUMN);
-        setColumnAlignment(ID_NAME_COLUMN, Align.CENTER);
+        setColumnAlignment(ID_NAME_COLUMN, Align.LEFT);
         setSelectable(true);
         setImmediate(true);
         setSizeFull();
+        addStyleName("content-table");
+        addStyleName("content-wrapper");
+    }
+
+    public void refreshContainer() {
+        container.removeAllItems();
+        container.addAll(service.getAllProjects());
     }
 
     private void initContainer() {

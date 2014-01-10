@@ -1,5 +1,6 @@
 package com.epam.issuetracker.ui.layout;
 
+import com.epam.issuetracker.ui.event.ProjectRefreshEvent;
 import com.epam.issuetracker.ui.event.ProjectSelectedEvent;
 import com.epam.issuetracker.ui.table.ProjectsTable;
 import com.epam.issuetracker.ui.window.ProjectWindow;
@@ -27,6 +28,10 @@ public class ProjectsLayout extends VerticalLayout {
     static final Method PROJECT_CLICK = ReflectTools.findMethod(ProjectsLayout.class, "selectProject",
         Property.ValueChangeEvent.class);
 
+    static final Method PROJECT_REFRESH_LISTENER = ReflectTools.findMethod(ProjectsLayout.class, "refreshTable",
+        ProjectRefreshEvent.class);
+    private ProjectsTable projectsTable = new ProjectsTable();
+    private ProjectWindow projectWindow = new ProjectWindow();
 
     /**
      * Default constructor.
@@ -35,12 +40,17 @@ public class ProjectsLayout extends VerticalLayout {
         init();
     }
 
+    public void refreshTable(ProjectRefreshEvent event) {
+        projectsTable.refreshContainer();
+    }
+
     /**
      * Click event for add project button.
      */
     public void onAddProjectClicked() {
-        ProjectWindow projectWindow = new ProjectWindow();
+        projectWindow.setNullProject();
         UI.getCurrent().addWindow(projectWindow);
+
     }
 
     /**
@@ -57,7 +67,7 @@ public class ProjectsLayout extends VerticalLayout {
     }
 
     private void init() {
-        ProjectsTable projectsTable = new ProjectsTable();
+        projectWindow.addListener(ProjectRefreshEvent.class, this, PROJECT_REFRESH_LISTENER);
         Button addProjectButton = new Button(BUTTON_ADD);
         addProjectButton.setWidth(BUTTON_WIDTH);
         addProjectButton.addListener(Button.ClickEvent.class, this, ADD_CLICK);
@@ -65,5 +75,6 @@ public class ProjectsLayout extends VerticalLayout {
         addComponents(addProjectButton, projectsTable);
         setSizeFull();
         setExpandRatio(projectsTable, 1.0f);
+
     }
 }

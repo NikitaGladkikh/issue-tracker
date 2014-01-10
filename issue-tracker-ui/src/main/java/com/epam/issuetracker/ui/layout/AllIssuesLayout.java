@@ -58,7 +58,7 @@ public class AllIssuesLayout extends VerticalLayout {
     private String projectId;
 
     public void refreshIssues(ProjectSelectedEvent event) {
-        issuesTable.refresh(event);
+        issuesTable.refresh(event.getProjectId());
         if (null == event.getProjectId()) {
             addIssueButton.setEnabled(false);
         } else {
@@ -131,6 +131,7 @@ public class AllIssuesLayout extends VerticalLayout {
     public void onSaveIssueClicked() {
         editIssueLayout.saveIssue();
         onReturnClicked();
+        issuesTable.refresh(projectId);
     }
 
     /**

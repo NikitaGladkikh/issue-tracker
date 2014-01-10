@@ -42,16 +42,16 @@ public class CommentWindow extends Window {
     private VerticalLayout windowLayout;
 
     private CommentService service = new CommentService();
-    private String idIssue;
+    private String issueId;
 
     /**
      * Constructor based on id of issue.
      *
-     * @param idIssue id of issue.
+     * @param issueId id of issue.
      */
-    public CommentWindow(String idIssue) {
+    public CommentWindow(String issueId) {
         super(COMMENT_BUTTON);
-        this.idIssue = idIssue;
+        this.issueId = issueId;
         center();
         setResizable(false);
         initButtons();
@@ -74,7 +74,7 @@ public class CommentWindow extends Window {
         Comment comment = new Comment();
         comment.setUser(USER);
         comment.setComment(commentTextArea.getValue());
-        service.addComment(new Comment(), idIssue);
+        service.addComment(comment, issueId);
         close();
     }
 

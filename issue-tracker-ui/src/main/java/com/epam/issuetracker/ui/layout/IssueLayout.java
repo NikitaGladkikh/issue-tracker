@@ -2,6 +2,7 @@ package com.epam.issuetracker.ui.layout;
 
 import com.epam.issuetracker.domain.comment.Comment;
 import com.epam.issuetracker.domain.issue.Issue;
+import com.epam.issuetracker.service.impl.CommentService;
 import com.epam.issuetracker.service.impl.IssueService;
 import com.epam.issuetracker.ui.event.IssueSelectedEvent;
 import com.epam.issuetracker.ui.util.LayoutFactory;
@@ -75,6 +76,7 @@ public class IssueLayout extends VerticalLayout {
      */
     void setIssueInfo(IssueSelectedEvent event) {
         IssueService service = new IssueService();
+        CommentService commentService = new CommentService();
         issue = service.getIssue(event.getIssueId());
         issueKeyLabel.setValue(issue.getKey());
         issueSummaryLabel.setValue(issue.getSummary());
@@ -84,6 +86,7 @@ public class IssueLayout extends VerticalLayout {
         issueStatusLabel.setValue(issue.getStatus());
         issueSeverityLabel.setValue(issue.getSeverity());
         issueResolutionLabel.setValue(issue.getResolution());
+        issue.setComments(commentService.getAllComments(issue.getId()));
         setComment();
     }
 
@@ -147,9 +150,10 @@ public class IssueLayout extends VerticalLayout {
     }
 
     private void setComment() {
+        userComment.removeAllComponents();
         for (Comment comment : issue.getComments()) {
             VerticalLayout commentLayout = new VerticalLayout();
-            commentLayout.addComponents(new Label(comment.getUser()), new Label(comment.getComment()));
+            commentLayout.addComponents(new Label(comment.getComment()));
             userComment.addComponents(commentLayout);
         }
     }

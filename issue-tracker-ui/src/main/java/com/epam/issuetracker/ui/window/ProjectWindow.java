@@ -2,7 +2,9 @@ package com.epam.issuetracker.ui.window;
 
 import com.epam.issuetracker.domain.project.Project;
 import com.epam.issuetracker.service.impl.ProjectService;
+import com.epam.issuetracker.ui.event.ProjectRefreshEvent;
 import com.epam.issuetracker.ui.util.LayoutFactory;
+import com.vaadin.data.Validator;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.HorizontalLayout;
@@ -33,6 +35,10 @@ public class ProjectWindow extends Window {
     private static final String CANCEL_BUTTON = "Cancel";
     private static final String SAVE_BUTTON = "Save";
     private static final String PROJECT_LABEL = "Project";
+    private static final String BLANK_FIELD = "";
+    private static final String START_WITH_WHITESPACE = "Name can not start with whitespace symbol";
+    private static final String END_WITH_WHITESPACE = "Name can not end with whitespace symbol";
+    private static final String NAME_LENGTH = "Length of Name can not exceed 20 symbols";
 
     static final Method CANCEL_LISTENER = ReflectTools.findMethod(ProjectWindow.class, "onCancelClicked");
     static final Method ADD_LISTENER = ReflectTools.findMethod(ProjectWindow.class, "onSaveClicked");
@@ -48,7 +54,8 @@ public class ProjectWindow extends Window {
     private VerticalLayout windowLayout;
 
     private ProjectService service = new ProjectService();
-    private Project project = new Project();
+    private Project project;
+
 
     /**
      * Default constructor.
@@ -75,6 +82,17 @@ public class ProjectWindow extends Window {
         descriptionTextArea.setValue(project.getDescription());
     }
 
+    public void setNullProject() {
+        project = new Project();
+        nameTextField.setValue(BLANK_FIELD);
+        shortNameTextField.setValue(BLANK_FIELD);
+        descriptionTextArea.setValue(BLANK_FIELD);
+    }
+
+    public void refreshTable(Button.ClickEvent event) {
+        fireEvent(new ProjectRefreshEvent(this));
+    }
+
     /**
      * Cancel event for cancel button.
      */
@@ -90,6 +108,7 @@ public class ProjectWindow extends Window {
         project.setShortName(shortNameTextField.getValue());
         project.setDescription(descriptionTextArea.getValue());
         service.updateProject(project);
+        fireEvent(new ProjectRefreshEvent(this));
         close();
     }
 
@@ -105,7 +124,22 @@ public class ProjectWindow extends Window {
     }
 
     private void initLayout() {
+        Validator projectNameValidator = new Validator() {
+            public void validate(Object value) {
+                if (value.toString().startsWith(" ")) {
+                    throw new InvalidValueException(START_WITH_WHITESPACE);
+                }
+                if (value.toString().endsWith(" ")) {
+                    throw new InvalidValueException(END_WITH_WHITESPACE);
+                }
+                if (value.toString().length() >= 20) {
+                    throw new InvalidValueException(NAME_LENGTH);
+                }
+            }
+        };
         nameTextField.setWidth(FIELD_WIDTH);
+        nameTextField.addValidator(projectNameValidator);
+        nameTextField.setImmediate(true);
         shortNameTextField.setWidth(FIELD_WIDTH);
         descriptionTextArea.setWidth(FIELD_WIDTH);
         VerticalLayout fieldsLayout =

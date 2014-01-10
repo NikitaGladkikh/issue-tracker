@@ -76,3 +76,17 @@
 .v-table-cell-content-specification {
     background-color: #FFE368;
 }
+.v-table-focus .v-table-cell-content {
+
+    border-color: black
+}
+
+.content-table .v-table-cell-content {
+    border-bottom-color: #5487FF;
+    border-bottom-style: solid;
+    border-width: 1px;
+}
+.content-wrapper .v-table-cell-wrapper {
+    overflow: hidden;
+    white-space: normal;
+}

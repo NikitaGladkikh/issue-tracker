@@ -3,7 +3,6 @@ package com.epam.issuetracker.ui.table;
 import com.epam.issuetracker.domain.enums.TypeEnum;
 import com.epam.issuetracker.domain.issue.Issue;
 import com.epam.issuetracker.service.impl.IssueService;
-import com.epam.issuetracker.ui.event.ProjectSelectedEvent;
 import com.vaadin.data.Item;
 import com.vaadin.data.util.AbstractBeanContainer;
 import com.vaadin.data.util.BeanContainer;
@@ -41,12 +40,12 @@ public class IssuesTable extends Table {
     /**
      * Refresh data of container.
      *
-     * @param event
+     * @param projectId
      */
-    public void refresh(ProjectSelectedEvent event) {
+    public void refresh(String projectId) {
         container.removeAllItems();
-        if (null != event.getProjectId()) {
-            container.addAll(service.getAllIssues(event.getProjectId()));
+        if (null != projectId) {
+            container.addAll(service.getAllIssues(projectId));
         }
     }
 
