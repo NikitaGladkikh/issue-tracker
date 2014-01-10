@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author Mikita_Hladkikh
  */
-public interface IProjectInterface {
+public interface IProjectRepository {
 
     /**
      * Find all projects.

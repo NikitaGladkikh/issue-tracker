@@ -5,7 +5,7 @@ databaseChangeLog {
         createTable(tableName: 'comments', schemaName: issueTrackerShema, tablespace: tableSpaceData,
                 remarks: 'Reference table for storing comments which will be used in the application') {
 
-            column(name: 'comments_uid', type: 'VARCHAR(3)', remarks: 'The id of the comment') {
+            column(name: 'comments_uid', type: 'VARCHAR(255)', remarks: 'The id of the comment') {
                 constraints(nullable: false)
             }
             column(name: 'comments_desription', type: 'VARCHAR(255)', remarks: 'The name of the comment') {

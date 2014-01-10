@@ -17,10 +17,11 @@ databaseChangeLog {
             column(name: 'project_description', type: 'VARCHAR(255)', remarks: 'The description of the project') {
                 constraints(nullable: false)
             }
-            column(name: 'project_state', type: 'BOOLEAN', remarks: 'The state of the project') {
+            column(name: 'project_state', type: 'BOOLEAN', defaultValue: 'TRUE', remarks: 'The state of the project') {
                 constraints(nullable: false)
             }
-            column(name: 'created_datetime', type: 'TIMESTAMPTZ', defaultValueDate: 'now()', remarks: 'The date and time this project was created') {
+            column(name: 'created_datetime', type: 'TIMESTAMPTZ', defaultValueDate: 'now()', remarks: 'The date and ' +
+                    'time this project was created') {
                 constraints(nullable: false)
             }
         }
