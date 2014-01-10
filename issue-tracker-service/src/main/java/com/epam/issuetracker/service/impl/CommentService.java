@@ -23,9 +23,9 @@ public class CommentService implements ICommentService {
     }
 
     @Override
-    public void addComment(Comment comment, String idIssue) {
+    public void addComment(Comment comment, String issueId) {
         comment.setId(UUID.randomUUID().toString());
-        repository.insertComment(comment, idIssue);
+        repository.insertComment(comment, issueId);
     }
 
     public void setCommentRepository(CommentRepository repository) {

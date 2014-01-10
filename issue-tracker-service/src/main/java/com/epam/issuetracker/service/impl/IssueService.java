@@ -31,8 +31,17 @@ public class IssueService implements IIssueService {
     public void updateIssue(Issue issue, String projectId) {
         if (null == issue.getId()) {
             issue.setId(UUID.randomUUID().toString());
+            issue.setKey(new ProjectService().getProject(projectId).getShortName());
+            issue.setStatus(repository.findStatusById(issue.getStatus()));
+            issue.setPriority(repository.findPriorityById(issue.getPriority()));
+            issue.setSeverity(repository.findSeverityById(issue.getSeverity()));
+            issue.setResolution(repository.findResolutionById(issue.getResolution()));
             repository.insertIssue(issue, projectId);
         } else {
+            issue.setStatus(repository.findStatusById(issue.getStatus()));
+            issue.setPriority(repository.findPriorityById(issue.getPriority()));
+            issue.setSeverity(repository.findSeverityById(issue.getSeverity()));
+            issue.setResolution(repository.findResolutionById(issue.getResolution()));
             repository.updateIssue(issue);
         }
     }
