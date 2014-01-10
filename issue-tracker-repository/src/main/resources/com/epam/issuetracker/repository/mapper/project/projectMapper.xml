@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.epam.issuetracker.repository.api.IProjectRepository">
+    <resultMap type="Project" id="projectResult">
+        <result property="id" column="project_uid"/>
+        <result property="name" column="project_name"/>
+        <result property="shortName" column="project_short_name"/>
+        <result property="description" column="project_description"/>
+    </resultMap>
+    <select id="findAllProjects" resultMap="projectResult">
+        SELECT project_uid, project_name, project_short_name, project_description
+        FROM projects
+    </select>
+    <select id="findProject" parameterType="String" resultMap="projectResult">
+        SELECT project_uid, project_name, project_short_name, project_description
+        FROM projects WHERE project_uid=#{id}
+    </select>
+    <insert id="insertProject" parameterType="Project">
+        INSERT INTO projects(project_uid,project_name,project_short_name,project_description)
+        VALUES(#{id},#{name},#{shortName},#{description})
+    </insert>
+    <update id="updateProject" parameterType="Project">
+        UPDATE projects
+        SET project_name=#{name},project_short_name=#{shortName},project_description=#{description}
+        WHERE project_uid=#{id}
+    </update>
+    <delete id="archiveProject" parameterType="String">
+        DELETE FROM projects
+        WHERE project_uid=#{id}
+    </delete>
+</mapper>

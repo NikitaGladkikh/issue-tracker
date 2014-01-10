@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.epam.issuetracker.repository.api.IIssueRepository">
+    <resultMap type="Issue" id="issueResult">
+        <result property="id" column="issue_uid"/>
+        <result property="summary" column="issue_summary"/>
+        <result property="key" column="issue_short_name"/>
+        <result property="description" column="issue_description"/>
+        <result property="type" column="type_uid" typeHandler="com.epam.issuetracker.repository.EnumTypeHandler"/>
+        <result property="status" column="status_name"/>
+        <result property="priority" column="priority_name"/>
+        <result property="severity" column="severity_name"/>
+        <result property="resolution" column="resolution_name"/>
+    </resultMap>
+    <sql id="issueFields">
+        i.issue_uid,i.issue_summary,i.issue_short_name,i.issue_description,r.resolution_name,p.priority_name,
+        s.severity_name,t.type_uid,st.status_name
+    </sql>
+    <sql id="issueIntersection">
+        INNER JOIN resolution r ON i.resolution_uid=r.resolution_uid
+        INNER JOIN priority p ON i.priority_uid=p.priority_uid
+        INNER JOIN severity s ON i.severity_uid=s.severity_uid
+        INNER JOIN type t ON i.type_uid=t.type_uid
+        INNER JOIN status st ON i.status_uid=st.status_uid
+    </sql>
+    <select id="findAllIssues" parameterType="String" resultMap="issueResult">
+        SELECT
+        <include refid="issueFields"/>
+        FROM issues i
+        <include refid="issueIntersection"/>
+        WHERE i.project_uid=#{project_id}
+    </select>
+    <select id="findIssue" parameterType="String" resultMap="issueResult">
+        SELECT
+        <include refid="issueFields"/>
+        FROM issues i
+        <include refid="issueIntersection"/>
+        WHERE i.issue_uid=#{id}
+    </select>
+    <select id="findStatuses" resultType="String">
+        SELECT status_name
+        FROM status
+    </select>
+    <select id="findSeverities" resultType="String">
+        SELECT severity_name
+        FROM severity
+    </select>
+    <select id="findResolutions" resultType="String">
+        SELECT resolution_name
+        FROM resolution
+    </select>
+    <select id="findPriorities" resultType="String">
+        SELECT priority_name
+        FROM priority
+    </select>
+    <select id="findStatusById" resultType="String">
+        SELECT status_uid
+        FROM status
+        WHERE status_name=#{priority_name}
+    </select>
+    <select id="findSeverityById" resultType="String">
+        SELECT severity_uid
+        FROM severity
+        WHERE severity_name=#{severity_name}
+    </select>
+    <select id="findResolutionById" resultType="String">
+        SELECT resolution_uid
+        FROM resolution
+        WHERE resolution_name=#{resolution_name}
+    </select>
+    <select id="findPriorityById" resultType="String">
+        SELECT priority_uid
+        FROM priority
+        WHERE priority_name=#{priority_name}
+    </select>
+    <insert id="insertIssue">
+        INSERT INTO
+            issues(issue_uid,issue_summary,
+            issue_short_name,issue_description,type_uid,
+            status_uid,priority_uid,severity_uid,
+            resolution_uid,project_uid)
+        VALUES(#{issue.id},#{issue.summary},#{issue.key},#{issue.description},
+            #{issue.type, typeHandler=com.epam.issuetracker.repository.EnumTypeHandler},
+            #{issue.status},#{issue.priority},#{issue.severity},#{issue.resolution},#{projectId})
+    </insert>
+    <update id="updateIssue" parameterType="Issue">
+        UPDATE issues
+        SET issue_summary=#{summary},issue_short_name=#{key},issue_description=#{description},
+            type_uid=#{type, typeHandler=com.epam.issuetracker.repository.EnumTypeHandler},
+            status_uid = #{status},priority_uid=#{priority}, severity_uid=#{severity},
+            resolution_uid=#{resolution}
+        WHERE issue_uid=#{id}
+    </update>
+</mapper>

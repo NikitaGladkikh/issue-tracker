@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.epam.issuetracker.repository.api.ICommentRepository">
+    <resultMap type="Comment" id="commentResult">
+        <result property="id" column="comments_uid"/>
+        <result property="comment" column="comments_desription"/>
+    </resultMap>
+    <select id="findComments" parameterType="String" resultMap="commentResult">
+        SELECT comments_uid, comments_desription
+        FROM comments
+        WHERE issue_uid=#{issueId}
+    </select>
+    <insert id="insertComment">
+        INSERT INTO comments(comments_uid, comments_desription, issue_uid)
+        VALUES (#{comment.id},#{comment.comment}, #{issueId})
+    </insert>
+</mapper>
