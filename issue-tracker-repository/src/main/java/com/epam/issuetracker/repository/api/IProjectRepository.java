@@ -21,10 +21,12 @@ public interface IProjectRepository {
 
     /**
      * Find project by id.
+     *
      * @param projectId id of project.
      * @return project.
      */
     Project findProject(String projectId);
+
     /**
      * Insert new project.
      *

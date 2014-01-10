@@ -2,6 +2,8 @@ package com.epam.issuetracker.repository.api;
 
 import com.epam.issuetracker.domain.comment.Comment;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -25,5 +27,5 @@ public interface ICommentRepository {
      *
      * @param issueId id of issue.
      */
-    void insertComment(Comment comment, String issueId);
+    void insertComment(@Param("comment") Comment comment, @Param("issueId") String issueId);
 }

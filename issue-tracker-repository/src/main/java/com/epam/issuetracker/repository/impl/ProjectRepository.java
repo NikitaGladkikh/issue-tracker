@@ -1,11 +1,12 @@
 package com.epam.issuetracker.repository.impl;
 
 import com.epam.issuetracker.domain.project.Project;
-import com.epam.issuetracker.repository.api.IProjectInterface;
+import com.epam.issuetracker.repository.MyBatisSqlSessionFactory;
+import com.epam.issuetracker.repository.api.IProjectRepository;
 
-import java.util.ArrayList;
+import org.apache.ibatis.session.SqlSession;
+
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Implementation of project repository interface.
@@ -14,53 +15,70 @@ import java.util.UUID;
  *
  * @author Mikita_Hladkikh
  */
-public class ProjectRepository implements IProjectInterface {
+public class ProjectRepository implements IProjectRepository {
 
-    private static final String NAME = "NAME";
-    private static final String SHORT_NAME = "Short Name";
-    private static final String DESCRIPTION = "Description";
-
-    private List<Project> projects = buildProjects();
+    private SqlSession session;
 
     @Override
     public List<Project> findAllProjects() {
-        return projects;
+        session = MyBatisSqlSessionFactory.openSession();
+        try {
+            IProjectRepository projectRepository =
+                session.getMapper(IProjectRepository.class);
+            return projectRepository.findAllProjects();
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public Project findProject(String projectId) {
-        Project project = new Project();
-        project.setName(projectId);
-        project.setShortName(projectId);
-        project.setDescription(projectId);
-        return project;
+        session = MyBatisSqlSessionFactory.openSession();
+        try {
+            IProjectRepository projectRepository =
+                session.getMapper(IProjectRepository.class);
+            return projectRepository.findProject(projectId);
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public void insertProject(Project project) {
-        projects.add(project);
+        session = MyBatisSqlSessionFactory.openSession();
+        try {
+            IProjectRepository projectRepository =
+                session.getMapper(IProjectRepository.class);
+            projectRepository.insertProject(project);
+            session.commit();
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public void updateProject(Project project) {
-        projects.add(project);
+        session = MyBatisSqlSessionFactory.openSession();
+        try {
+            IProjectRepository projectRepository =
+                session.getMapper(IProjectRepository.class);
+            projectRepository.updateProject(project);
+            session.commit();
+        } finally {
+            session.close();
+        }
     }
 
     @Override
     public void archiveProject(String projectId) {
-        projects.remove(7);
-    }
-
-    private List<Project> buildProjects() {
-        List<Project> tempProject = new ArrayList<>();
-        for (int i = 0; i < 50; i++) {
-            Project project = new Project();
-            project.setId(UUID.randomUUID().toString());
-            project.setName(NAME);
-            project.setShortName(SHORT_NAME);
-            project.setDescription(DESCRIPTION);
-            tempProject.add(project);
+        session = MyBatisSqlSessionFactory.openSession();
+        try {
+            IProjectRepository projectRepository =
+                session.getMapper(IProjectRepository.class);
+            projectRepository.archiveProject(projectId);
+            session.commit();
+        } finally {
+            session.close();
         }
-        return tempProject;
     }
 }

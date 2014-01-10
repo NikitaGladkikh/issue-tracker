@@ -2,6 +2,8 @@ package com.epam.issuetracker.repository.api;
 
 import com.epam.issuetracker.domain.issue.Issue;
 
+import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -34,7 +36,7 @@ public interface IIssueRepository {
      * @param issue     new impl.
      * @param projectId id of project.
      */
-    void insertIssue(Issue issue, String projectId);
+    void insertIssue(@Param("issue") Issue issue, @Param("projectId") String projectId);
 
     /**
      * Update selected impl.
@@ -51,11 +53,27 @@ public interface IIssueRepository {
     List<String> findStatuses();
 
     /**
+     * Find Status by id
+     *
+     * @param name name of Status
+     * @return id of Status
+     */
+    String findStatusById(String name);
+
+    /**
      * Find all of severities for impl.
      *
      * @return list of severities.
      */
     List<String> findSeverities();
+
+    /**
+     * Find severity by id
+     *
+     * @param name name of severity
+     * @return id of severity
+     */
+    String findSeverityById(String name);
 
     /**
      * Find all of resolutions for impl.
@@ -65,9 +83,25 @@ public interface IIssueRepository {
     List<String> findResolutions();
 
     /**
+     * Find resolution by id
+     *
+     * @param name name of resolution
+     * @return id of resolution
+     */
+    String findResolutionById(String name);
+
+    /**
      * Find all of properties for impl.
      *
      * @return list of priorities.
      */
     List<String> findPriorities();
+
+    /**
+     * Find priority by id
+     *
+     * @param name name of priority
+     * @return id of priority
+     */
+    String findPriorityById(String name);
 }

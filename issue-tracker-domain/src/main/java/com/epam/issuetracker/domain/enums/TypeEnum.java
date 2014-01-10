@@ -9,9 +9,9 @@ package com.epam.issuetracker.domain.enums;
  */
 public enum TypeEnum {
 
-    BUG("1", "bug"),
-    ENVIRONMENT("2", "environment"),
-    SPECIFICATION("3", "specification");
+    BUG("10", "bug"),
+    ENVIRONMENT("20", "environment"),
+    SPECIFICATION("30", "specification");
 
     private String id;
     private String name;
@@ -45,6 +45,6 @@ public enum TypeEnum {
                 return type;
             }
         }
-        throw new IllegalArgumentException("Type not found");
+        throw new IllegalArgumentException("Type not found " + id);
     }
 }
